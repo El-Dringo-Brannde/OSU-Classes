@@ -1,0 +1,2 @@
+Memset(mystring, '\0', stringsize)
+  handy for wiping an array
