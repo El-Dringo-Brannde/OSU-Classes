@@ -1,0 +1,83 @@
+<script> 
+	document.getElementById('poop').innerHTML = '<a href = "http://52.38.214.0:1995/intro"> Back</a>'+ '  Using an API to get data  '+'<a href = "http://52.38.214.00:1995/EAPIex">Onwards</a>';
+</script>
+
+<div style = "text-align: center; background-color: #C0C0C0;"> 
+	<h2> The bread and butter of API requests </h2> 
+		One thing that I found, that seems to be universal is that no documentation tells you about how to use their API. 
+		They simply give endpoints, which can be trouble some if you don't know what they are. For instance <br> <code> 
+		{protocol}://api.edmunds.com/{endpoint}?fmt={response format}&api_key={API key} </code>. <br> Is what the Edmunds API gives you
+		<br> and if you are new to Web Dev stuff, this can seem ultra confusing. <br> But they also don't tell give you the code examples 
+		to acess said API. So let's break this down peice by piece. <br> <br> 
+		<li style = "font-size: 20px;">
+		<code>  {Protocol} </code> 
+			</li> 
+				Protocol is the standardized secure method of communication over the internet. That is why all websites start off with  <code>Https: </code> 
+			<li style = "font-size: 20px;"> <code> //api.edmunds.com/ </code> </li> 	
+				Their API doesn't say, but this is their base endpoint for any API requests you may make to their websites.  
+			<li style = "font-size: 20px;"> <code> {endpoint} </code> </li>  
+				Here we are getting to the important stuff. This is the path that you must include to access your desired methods from edmunds. <br>
+					Whether it be getting a vehicles info, finding the price on said vehicle, or getting pictures.<br> This is also probably the most important 
+					piece of code you want too.
+			<li style = "font-size: 20px;"> <code>?fmt={response format} </code> </li> 
+				This is the part where you tell the server that you will be wanting the data via the JSON format talked about next 
+			<li style = "font-size: 20px;"> <code>&api_key={API key}</code> </li> 
+				So here is the part where you copy and paste your API Key that you should have got earlier  
+</div> 
+<div style = "text-align: center; background-color: #C0C0C0;"> 
+	<h2> An example of a filled API URI request </h2> 
+		So Here we have a filed API request trying to get the engine details for a 2008 Mazda 3 (My car :)) <br> 
+		<a href = "https://api.edmunds.com/api/vehicle/v2/styles/100987493/engines?fmt=json&api_key=2tgznn7tmcrp2fs6aa4xjqyg">
+			<code> https://api.edmunds.com/api/vehicle/v2/styles/100987493/engines?fmt=json&api_key=2tgznn7tmcrp2fs6aa4xjqyg </code> 
+		</a> 
+	<br> 
+		Now I bet you clicked that link, it took you to a page with a bunch of words barely readable to the human eye. That was JSON! <br> 
+		If you didn't go ahead and do it now so you know what I am talking about. 
+</div>
+<div style = "text-align: center; background-color: #C0C0C0;"> 
+	<h2> JSON.. TLDR </h2> 
+		So for starters, most basic API's simply return a JSON encoded payload. JSON or (Javascript Object Notation), is simply put 
+		a normalized way of transmitting data through most API's on the internet. <br> It is typically a object that has a bundle of arrays 
+		(Depending on what API you are working with.) In this case it is an array of engine details for my car. <br> It might look like a jumbled mess 
+		to you when you click the link, but here is what the computer actually sees.
+		<br> <img src="http://i.imgur.com/sXK7iNN.png"/> <br> 
+		As you can see, the way a computer parses the data, seems rather logical and easily readable. 
+</div><br> 
+<div style = "text-align: center; background-color: #C0C0C0;"> 
+	<h2> How to access all this cool JSON data?</h2>
+		To get to your JSON data, just thing of this response as one big array full of more arrays and access it with both the '.' operator <br> 
+		or '[x]' operator, or both. first you must capture said data with <code>var data = JSON.parse(xhr.responseText);</code> <br> 
+		So for instance if I wanted to get the <code> valve timing </code> of my car I would do so like. <br> 
+		<code> data.engines[0].valve.timing </code> <br>
+		<p data-height="214" data-theme-id="dark" data-slug-hash="aNgJXr" data-default-tab="js,result" data-user="Beandip1995" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/Beandip1995/pen/aNgJXr/">aNgJXr</a> by Brandon Dring (<a href="http://codepen.io/Beandip1995">@Beandip1995</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+		<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+		
+</div> <br> 
+
+<div style = "text-align: center; background-color: #C0C0C0;"> 
+	<h2> That's neat and all, but how do I make API calls in my own website? </h2>
+		Here is an example of a simple GET request to a websites API. <br> Now most websites won't tell you how to interact with their API, but 
+		for 99% of API's it is sent through some form of a <code> XMLHttpRequest. </code> <br> 
+		
+		<p data-height="358" data-theme-id="dark" data-slug-hash="VaJeGL" data-default-tab="js" data-user="Beandip1995" data-embed-version="2" 
+		class="codepen">See the Pen <a href="http://codepen.io/Beandip1995/pen/VaJeGL/">VaJeGL</a> by Brandon Dring (<a href="http://codepen.io/Beandip1995">@Beandip1995</a>) 
+		on <a href="http://codepen.io">CodePen</a>.</p>
+		<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+		
+		So what you want to do is open up your own <code> XMLHttpRequest()</code> as I have done above. <br> 
+		<code> XMLHttpRequest </code>is the basic way to use AJAX requests for interacting with websites/servers through an API. <br> 
+		The next line <code> xhr.open(...) </code> 
+		Is where you declare what you want to do.. So for the example you are trying to make a <code>GET</code> 
+		request to pull data from the Chuck Norris Jokes API.<br> 
+		You include the <code>'true'</code>value as well to let it know that it is trying to make an asynchronous request <br> 
+		(Meaning it's going on in the background) Then to get your data back, you use the <br> 
+		<code> var response = JSON.parse(xhr.responseText);</code> followed by <br> 
+		<code> console.log(response); </code> at this point the JSON encoded string will be interpreted via Javascript <br> 
+		to be somewhat human readable. And if you press F12, you can see the <code> object </code> in your console log <br> 
+		and click through the details you want to see in the returned array. <br> 
+		CONGRATS! You just made your first API request!
+</div> 
+
+<br> 
+
+

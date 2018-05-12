@@ -1,0 +1,60 @@
+<div style = "text-align: center; background-color: #C0C0C0"> 
+	<h2> We ran into a problem! </h2> 
+		You might have noticed the picture on the top changed... Atleast I hope it did and my code didn't break <br> 
+		Originally, I had planned on pulling pictures of said cars from the Edmunds site itself. But after looking into their documentation <br> 
+		I realized that you have to be either A.) partnered with Edmunds, or B.) Work for Edmunds. I don't think I could possible do either of <br> 
+		those things right now. So I have to improvise. Let's pull random photos off of imgur instead :) 
+</div> 
+<div style = "text-align: center; background-color: #C0C0C0"> 
+	<h2> Let's go grab some silly pictures to go with all our car talk </h2> 
+		To start off with, <a href = "https://api.imgur.com/"> Here </a> is a link to get you familarized with the imgur API. <br> 
+		Although I must say that it is not as straightforward and inuitive as the Edmunds API, it's definately meant for more seasoned <br> 
+		Web Dev's. 
+</div><br> 
+<p data-height="265" data-theme-id="dark" data-slug-hash="eZwZbN" data-default-tab="js" data-user="Beandip1995" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/Beandip1995/pen/eZwZbN/">eZwZbN</a> by Brandon Dring (<a href="http://codepen.io/Beandip1995">@Beandip1995</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+<br>
+<div style = "text-align: center; background-color: #C0C0C0"> 
+	<h2> You might start seeing a pattern here.. </h2> 
+		If you haven't noticed by now.. All of our API interactions have happened through <code> new XMLHttpRequest() </code> It's a nifty little simple tool <br> 
+		that lets you pull non-sensitve data from a website although when you start pulling or posting data to/from <br> 
+		more complex sites like facebook, instagram, dribbble, etc. they will ask you to jump through <br> 
+		more hoops before they let you have access to the data stored on their servers. 
+</div> 
+<div style = "text-align: center; background-color: #C0C0C0"> 
+	<h2> Let's take a look at this code snippet </h2> 
+		If you look closely between the other examples, the only thing I have really changed is the <code>xhr.open("GET","https://api.imgur.com/3/gallery/random/random/1",false) </code> <br> 
+		This is simply changing the endpoint I had been accessing. I found a endpoint on how to pull random photos from the imgur gallery. <br> 
+		via the imgur API documenation
+
+</div> 
+
+<div style = "text-align: center; background-color: #C0C0C0"> 
+	<h2> Things that are too advanced for me(right now), and things to come! </h2> 
+		There are a couple next steps on how to use more advanced API's.. 
+		<li> Figuring out Oauth (This is for more robust websites to authenticate the user.. It's confusing)</li> 
+		<li> Using Jquery to have more robust Javascript interactions </li> 
+		Besides that, getting API access is rather easy and straightforward, and that's as confusing as I have seen them. 
+	
+</div>
+
+<script> 
+	document.getElementById('poop').innerHTML = '<a href = "http://52.38.214.0:1995/EAPIex"> Backpedal</a>' + "  Grabbing pictures!   "+ '<a href = "http://52.38.214.0:1995/Review">Almost Done! </a>';
+	var xhr = new XMLHttpRequest();
+		 xhr.open("GET","https://api.imgur.com/3/gallery/random/random/1",false);
+		xhr.send(null);
+		var holder = JSON.parse(xhr.responseText);
+		console.log(holder.data);
+		var i = 0; 
+		for (var i in holder.data){
+			if (holder.data[i].type === "image/jpeg")
+				//if (Math.random()*10 == 5 || Math.random() *10 == 6)
+					break;
+			i++; 
+		}
+		var dumb = holder.data[i].link; 
+		console.log(dumb);
+		var bbg = document.getElementById('pics'); 
+		
+		bbg.src = dumb;
+</script>  

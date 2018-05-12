@@ -1,0 +1,15 @@
+<body> 
+<script> 
+var key = '1aeab2a0dfe6b0d9ef6a9a7fc8aedf04';
+
+var xhr = new XMLHttpRequest();
+xhr.open("get","http://api.openweathermap.org/data/2.5/weather?q=corvallis&APPID=" + key,false);
+xhr.send();
+console.log(JSON.parse(xhr.responseText));
+</script>
+</body>
+
+<h1>The response from Open Weather Map is:</h1>
+<pre>{{owm}}</pre>
+<h1>The response from httpbin is:</h1>
+<pre>{{httpbin}}</pre>

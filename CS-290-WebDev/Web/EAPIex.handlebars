@@ -1,0 +1,79 @@
+<script> 
+	document.getElementById('poop').innerHTML = '<a href = "http://52.38.214.0:1995/start"> Mouligan</a>' + '  Do cool things with APIs  '+'<a href = "http://52.38.214.0:1995/pictures">Proceed </a>';
+</script>
+<div style = "text-align: center; background-color: #C0C0C0;"> 
+	<h2> Ok, so I can access a dumb joke API on my site, what now? </h2>
+		Besides getting lame jokes you can do tons of things! Like pull vehicle data from Edmunds.com!<br>
+		Although there is a problem.. To start off with the Edmunds API is rather confusing. <br> 
+		<code> https://api.edmunds.com/api/vehicle/v2/engines/{id}?fmt=json&api_key={api key} </code> </br> 
+		I used this same exact API endpoint earlier to <code>GET</code> engine data <br>
+		for my car. But, do you see that <code>{id} </code> little bit? That is the car ID in the edmunds Database <br> 
+		So if you want to access any of their cars you must find that ID, through their API documentation there is no <br> 
+		mention on how to get that damn thing. So you have to use a seperate API to get a JSON string in which it gives it to you <br>
+		... Dumb I know. 
+
+</div> <br> 
+
+<div style = "text-align: center; background-color: #C0C0C0;"> 
+	<h2> The best way how to start off your API request from Edmunds </h2> 
+		So to get around this, we must first go look for the vehicle ID. Now, sadly there is no way to convienently find the vehicle ID <br> 
+		There is no API per say, that can give you a certain make,model,year,trim, option ID of a car in there database, afterall they probably <br> 
+		do have thousands. But to get around this, we can add some extra search parameters through a form. <br> 
+		
+</div> <br> 
+
+<p data-height="332" data-theme-id="dark" data-slug-hash="BKgjVR" data-default-tab="js"
+data-user="Beandip1995" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/Beandip1995/pen/BKgjVR/">BKgjVR</a>
+ by Brandon Dring (<a href="http://codepen.io/Beandip1995">@Beandip1995</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+<script async src="//assets.codepen.io/assets/embed/ei.js"></script>
+
+<div style = "text-align: center; background-color: #C0C0C0"> 
+	<h2> I blame Edmunds for a stupid API design.. </h2> 
+		This is the best way I had thought of to find the vehicle IDs. This is similar to the example in the page prior <br> 
+		But with this we include a form for the user, so they can atleast put in the basic make, model, and year of car they are looking for.<br> 
+		Now we can do more interesting queries about whatever vehicle we might by interested in. We can look at things such as the cost to own<br>
+		or the rating given by Edmunds themselves.
+</div>
+
+<div style = "text-align: center; background-color: #C0C0C0">
+	<h2> Now let's make something actually useful!</h2> 
+		Alright, so the user had put in the the Make, model, and year of their car and got their car ID, (stupid Edmunds)..<br> 
+		Now let's hypothetically say we are trying to let the user find out everything about this certain vehicle.. Transmission/engine details, <br> 
+		review ratings as said before, etc etc. Remember that ever important <code> ID </code> returned by the form up above? Lets grab that and use <br> 
+		it in some cooler API methods. 
+</div> 
+<div style = "text-align: center; background-color: #C0C0C0"> 
+	<h2> A word of warning when using the API</h2> 
+		One thing that I have found through the Edmunds API is that they have multiple different <code> ID </code> tags throughout the JSON parsed string <br> 
+		What makes it even more confusing is that through their API's to get details about a car, the endpoints they give are missing the crucial <br> 
+		<code>/style/</code> in the endpoint. If you forget to include that before your vehicle ID, you'll get a <code>Bad_request</code> response from their <br> 
+		server.. Which means <br> <code> https://api.edmunds.com/api/vehicle/v2/engines/{id}?fmt=json&api_key={api key} </code> turns into <br> 
+		<code>https://api.edmunds.com/api/vehicle/v2/styles/{id}/engines?fmt=json&api_key={api_key}</code> 
+</div> 
+
+<div style = "text-align: center; background-color: #C0C0C0">
+	<h2> Lets get some cool car data! </h2> 
+		Alright so for demonstration purposes, we will just get the review of the car from Edmunds, along with the Market value on a random vehicle. <br> 
+		We will assume the user had already looked up the engine specs from the previous examples and found out everything they wanted to know. <br>
+	<p data-height="332" data-theme-id="dark" data-slug-hash="xVoLGa" data-default-tab="result" data-user="Beandip1995" data-embed-version="2" class="codepen">See the Pen <a href="http://codepen.io/Beandip1995/pen/xVoLGa/">xVoLGa</a> by Brandon Dring (<a href="http://codepen.io/Beandip1995">@Beandip1995</a>) on <a href="http://codepen.io">CodePen</a>.</p>
+	<script async src="//assets.codepen.io/assets/embed/ei.js"></script>	
+		If you read through this code, you will see on the HTML page, I am creating dummy tags with an ID to be filled with data later <br> from the API call. 
+		As you do more API calls, unless you want your user to read everything from the console (You don't), <code> innerHTML </code> will become your best friend<br> 
+
+</div> <br> 
+<div style = "text-align: center; background-color: #C0C0C0">
+	<h2> <code>innerHTML</code> to populate your pages </h2> 
+		Most importantly when you are making API calls, you want to make sure you <code> JSON.parse(data-in) </code> then you can read it <br> through the console, 
+		and get the specific elements from the API data you want. Typically displaying it to the user from the <code> innerHTML </code> method.<br> 
+		So to get what we want, the Edmunds official review, we want to navigate through the Parsed data, and add it to our web page for the user. <br> 
+		<code> document.getElementById('foo').innerHTML += data.editorial.edmundsSays </code><br> is what moves the data from the server to our webpage specifically.
+		<br> Congrats, you did something actually useful on The Internet!
+</div> <br> 
+<div style = "text-align: center; background-color: #C0C0C0">
+	<h2> The not so bumpy road ahead </h2> 
+		The hardest thing to do when working with API's is being able to understand the documentation, most of the time it isn't that great <br> 
+		But you just need to know how to <br>  1.) make your GET/POST request <br> 2.) find the endpoint for the data you are trying to access. <br> 
+		3.) Parse all your JSON data and append it to your page in a tasteful and efficient way. <br> <br> 
+		Besides that, there isn't a ton to know about most basic API calls! It isn't until you start touching sensitive data through protected <br> 
+		things like facebook photos, things start gettings sticky. 
+</div> 
