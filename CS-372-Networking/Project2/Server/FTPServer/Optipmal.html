@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+   <meta name="viewport"
+         content="initial-scale=1.0, user-scalable=no">
+   <meta charset="utf-8">
+   <script src="http://code.jquery.com/jquery-3.2.1.js"
+           integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+           crossorigin="anonymous"></script>
+   <title>Optipmal</title>
+   <link rel="stylesheet"
+         type="text/css"
+         href="mapStyling.css">
+   <script src="https://www.google.com/jsapi"></script>
+   <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+   <script src="https://www.amcharts.com/lib/3/pie.js"></script>
+   <script src="https://www.amcharts.com/lib/3/plugins/animate/animate.min.js"></script>
+   <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+   <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+
+   <link rel="stylesheet"
+         href="https://www.amcharts.com/lib/3/plugins/export/export.css"
+         type="text/css"
+         media="all" />
+</head>
+
+<body>
+   <div id="floating-panel">
+      <strong>Start:</strong>
+      <input id="from"
+             value="Bellagios Pizza Beaverton" />
+      <br>
+      <strong>End Address:</strong>
+      <input id="to"
+             type="text"
+             value="15395 SW Fossil Lane" />
+      <br/>
+      <button id="go">Go!</button>
+   </div>
+   <div id="right-panel"></div>
+   <div id="explain">
+      <div id="routeInfo">
+         <h3> Route Breakdown</h3>
+         <h5 id="dist1">
+            <span id="dist"
+                  class="info">Distance: </span>
+         </h5>
+         <img src="http://i.imgur.com/A6sYoW8.png"
+              id="route" />
+         <h5 id="time">
+            <p>
+               <p id="dur"
+                  class="info">Duration:</p>
+               <p id="Traffic"
+                  class="info">Time in Traffic: </p>
+               </span>
+         </h5>
+         <h4>
+            <span id="TotalTurns"
+                  class="turns">Total Turns: </span>
+         </h4>
+         <h4>
+            <span id="LeftTurns"
+                  class="turns">Total Left Turns: </span>
+         </h4>
+         <h4>
+            <span id="RightTurns"
+                  class="turns">Total Right Turns: </span>
+         </h4>
+         <h4>
+            <span id="Elevation"
+                  class="turns">Total Elevation Change:</span>
+         </h4>
+      </div>
+      <h3>Elevation Change</h3>
+      <div id="elevation_chart"></div>
+      <div id="carCost">
+         <h3>Delivery Cost Breakdown</h3>
+         <h4>
+            <span id="TotalCost"
+                  class="info"> Total Cost of Delivery: </span>
+         </h4>
+         <h4>
+            <span id="gas"
+                  class="info"> Cost of gas(est. 25mpg @ $2.50/gal): </span>
+         </h4>
+         <h4>
+            <span id="oil"
+                  class="info"> Cost of maintanence(est. @0.05/mi ): </span>
+         </h4>
+         <h4>
+            <span id="depreciation"
+                  class="info"> Depreciation (est. $0.16/mi): </span>
+         </h4>
+         <h4>
+            <span id="est"
+                  class="info"></span>
+         </h4>
+      </div>
+      <div id="chartdiv"></div>
+   </div>
+   <div id="map"></div>
+
+
+   <script async
+           defer
+           src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRY-gqzXVwMVc9CipzgdLFapcPBw_ORz8&callback=initMap">
+         </script>
+   <script src="./work.js"></script>
+
+</body>
+
+</html>

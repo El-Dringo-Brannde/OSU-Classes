@@ -1,1 +1,1 @@
-OSU Classes
+CS 372 - Intro To Networking
