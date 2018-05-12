@@ -1,0 +1,9 @@
+Largely the paper on TDD just talked about how to use TDD, which for the love of god..
+I do 
+
+But one thing to pull away from the paper was to make each increment only 5 lines long roughly. 
+
+Also, you must remember to think of a test to fail before writing code to make the test pass. 
+  It is very redlight greenlight
+  
+Think -> Redlight -> Greenlight -> Refactor -> repeat

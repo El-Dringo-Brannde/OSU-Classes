@@ -1,0 +1,61 @@
+begin: start
+
+state: start
+callConstructor -> ReadyState
+
+state: ReadyState
+callAddText -> InsideAddText
+callReset -> ReadyState
+callIndex -> InsideIndex
+callListPairs -> InsideListPairParser
+
+state: InsideAddText
+callAddText -> InsideAddText
+callReset -> ReadyState
+callDocument -> InsideDocument
+callIndex -> InsideIndex
+callListPairs -> InsideListPairParser
+
+state: InsideIndex
+callReset -> ReadyState
+callDocument -> InsideDocument
+callNoDoc -> InsideNoDoc
+callAddText -> InsideAddText
+callReset -> ReadyState
+
+state: InsideNoDoc
+callReset -> ReadyState
+callAddText -> InsideAddText
+callIndex -> InsideIndex
+callListPairs -> InsideListPairParser
+
+state: InsideDocument
+callParser -> InsideParser
+callRotator -> InsideRotator
+
+#Where Index ends
+state: InsideRotator
+callReset -> ReadyState
+callListPairs -> InsideListPairParser
+callAddText -> InsideAddText
+callIndex -> InsideIndex
+
+state: InsideListPairParser
+callRemovePunct -> InsideRemovePunct
+
+state: InsideParser
+callReset -> ReadyState
+CallAddText -> InsideAddText
+callRemovePunct -> InsideRemovePunct
+callReset -> ReadyState
+callRotator -> InsideRotator
+
+state: InsideRemovePunct
+FindWP -> InsideFindWP
+
+#Where LPParser ends
+state: InsideFindWP
+callReset -> ReadyState
+callAddText -> InsideAddText
+callIndex -> InsideIndex
+callListPairs -> InsideListPairParser

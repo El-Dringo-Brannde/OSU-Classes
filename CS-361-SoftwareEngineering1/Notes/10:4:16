@@ -1,0 +1,6 @@
+Differential testing
+  -> Testing that your system works like something else
+  -> ie: porting
+
+TDD prevents various bugs from generating since only small sections
+get added at a time
