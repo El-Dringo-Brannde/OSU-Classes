@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../.resources/report.gif" type="image/gif"/><title>CardTest.java</title><link rel="stylesheet" href="../../../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../.sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">CardTest (2) (Feb 13, 2017 10:21:44 PM)</a> &gt; <a href="../../index.html" class="el_group">Dominion</a> &gt; <a href="../index.html" class="el_bundle">src</a> &gt; <a href="index.source.html" class="el_package">org.cs362.dominion</a> &gt; <span class="el_source">CardTest.java</span></div><h1>CardTest.java</h1><pre class="source lang-java linenums">package org.cs362.dominion;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+<span class="fc" id="L10">public class CardTest {</span>
+	private List&lt;Card&gt; cardList;
+	private Player playerA;
+	private Player playerB;
+	private GameState gameState;
+	private List&lt;Card&gt; cardList1;
+	private Player playerA1;
+	private Player playerB1;
+	private GameState gameState1;
+	
+    @Before
+    public void createList()
+    {
+<span class="fc" id="L23">        cardList = Card.createCards();</span>
+        //List&lt;Card&gt; cards;
+	    GameState gameState;
+		//Randomness.reset(10);	   
+<span class="fc" id="L27">		cardList = new ArrayList&lt;Card&gt;(Card.createCards());</span>
+<span class="fc" id="L28">		gameState = new GameState(cardList);</span>
+<span class="fc" id="L29">	    playerA = new Player(gameState, &quot;player A&quot;);</span>
+<span class="fc" id="L30">	    gameState.addPlayer(playerA);</span>
+<span class="fc" id="L31">	    playerB = new Player(gameState, &quot;player B&quot;);</span>
+<span class="fc" id="L32">        gameState.addPlayer(playerB);		      </span>
+<span class="fc" id="L33">        gameState.initializeGame();</span>
+<span class="fc" id="L34">    }</span>
+
+    @Test
+    public void listSizeTest()
+    {
+<span class="fc" id="L39">        assertEquals(20, cardList.size());</span>
+<span class="fc" id="L40">    }</span>
+    
+    @Test
+    public void testGold(){
+<span class="fc" id="L44">    	assertEquals(Card.Type.TREASURE, cardList.get(0).getType());</span>
+<span class="fc" id="L45">    	assertEquals(Card.CardName.Gold, cardList.get(0).getCardName());</span>
+<span class="fc" id="L46">    	assertEquals(6, cardList.get(0).cost(cardList.get(0)));</span>
+<span class="fc" id="L47">    	assertEquals(3,cardList.get(0).getTreasureValue());	</span>
+<span class="fc" id="L48">    }</span>
+    @Test
+    public void testSilver(){
+<span class="fc" id="L51">    	assertEquals(Card.Type.TREASURE, cardList.get(1).getType());</span>
+<span class="fc" id="L52">    	assertEquals(Card.CardName.Silver, cardList.get(1).getCardName());</span>
+<span class="fc" id="L53">    	assertEquals(3, cardList.get(1).cost(cardList.get(1)));</span>
+<span class="fc" id="L54">    	assertEquals(2,cardList.get(1).getTreasureValue());	</span>
+<span class="fc" id="L55">    } </span>
+    @Test
+    public void testCooper(){
+<span class="fc" id="L58">    	assertEquals(Card.Type.TREASURE, cardList.get(2).getType());</span>
+<span class="fc" id="L59">    	assertEquals(Card.CardName.Cooper, cardList.get(2).getCardName());</span>
+<span class="fc" id="L60">    	assertEquals(0, cardList.get(2).cost(cardList.get(2)));</span>
+<span class="fc" id="L61">    	assertEquals(1,cardList.get(2).getTreasureValue());	</span>
+<span class="fc" id="L62">    }</span>
+    @Test
+    public void testAdventurer(){
+<span class="fc" id="L65">    	 playerA.numActions = 1;</span>
+<span class="fc" id="L66">	      playerA.coins = 0;</span>
+<span class="fc" id="L67">	      playerA.numBuys = 1;</span>
+<span class="fc" id="L68">	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Adventurer));</span>
+<span class="fc bfc" id="L69" title="All 2 branches covered.">	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L70">		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+	      }
+<span class="fc" id="L72">		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">		   assertTrue(playerA.hand.size()&gt;5);</span>
+
+	      
+<span class="fc" id="L76">    }</span>
+    @Test
+    public void testSmithy(){
+<span class="fc" id="L79">    	 playerA.numActions = 1;</span>
+<span class="fc" id="L80">	      playerA.coins = 0;</span>
+<span class="fc" id="L81">	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L82" title="All 2 branches covered.">	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L83">	    	  playerA.hand.remove(0);</span>
+	      }
+<span class="fc" id="L85">	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Smithy));</span>
+	      
+<span class="fc bfc" id="L87" title="All 2 branches covered.">	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L88">		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+	      }
+	      
+<span class="fc" id="L91">		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L92" title="1 of 2 branches missed.">		   assertTrue(playerA.hand.size()==8); //drawing 3 cards</span>
+
+<span class="fc" id="L94">    }  </span>
+    @Test
+    public void testSalvager(){
+<span class="fc" id="L97">    	 playerA.numActions = 1;</span>
+<span class="fc" id="L98">	      playerA.coins = 0;</span>
+<span class="fc" id="L99">	      playerA.numBuys = 1;</span>
+<span class="fc" id="L100">	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Salvager));</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L102">		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+	      }
+
+<span class="fc" id="L105">		   playerA.playKingdomCard();</span>
+
+<span class="pc bpc" id="L107" title="1 of 2 branches missed.">		   assertTrue(playerA.numBuys ==2); //get an extra buy</span>
+		   
+
+<span class="fc" id="L110">    }  </span>
+    @Test
+    public void testVillage(){
+<span class="fc" id="L113">    	 playerA.numActions = 1;</span>
+<span class="fc" id="L114">	      playerA.coins = 0;</span>
+<span class="fc" id="L115">	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L116" title="All 2 branches covered.">	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L117">	    	  playerA.hand.remove(0);</span>
+	      }
+<span class="fc" id="L119">	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Village));</span>
+<span class="fc bfc" id="L120" title="All 2 branches covered.">	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L121">		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+	      }
+<span class="fc" id="L123">		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L124" title="1 of 2 branches missed.">		   assertTrue(playerA.numActions==2); //get an extra buy</span>
+		   
+
+<span class="fc" id="L127">    }  </span>
+    @Test
+    public void testAmbassador(){
+<span class="fc" id="L130">   	 playerA.numActions = 1;</span>
+<span class="fc" id="L131">	      playerA.coins = 0;</span>
+<span class="fc" id="L132">	      playerA.numBuys = 1;</span>
+<span class="fc" id="L133">	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Ambassador));</span>
+<span class="fc bfc" id="L134" title="All 2 branches covered.">	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L135">		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+	      }
+	      
+<span class="fc" id="L138">		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L139" title="1 of 2 branches missed.">		   assertTrue(playerB.hand.size()&gt;5); //player B should have more than 5 cards because they should have ambassador now</span>
+		   //it will fail because this is one of my bugs. The other player doesn't get another card.
+		   
+
+<span class="nc" id="L143">   }  </span>
+    @Test
+    public void testBaron(){
+<span class="fc" id="L146">   	 playerA.numActions = 1;</span>
+<span class="fc" id="L147">	      playerA.coins = 0;</span>
+<span class="fc" id="L148">	      int estate=1;</span>
+<span class="fc" id="L149">	      playerA.numBuys = 1;</span>
+<span class="fc" id="L150">	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Baron));</span>
+<span class="fc bfc" id="L151" title="All 2 branches covered.">	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L152">		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+	      }
+	      
+<span class="fc" id="L155">		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L156" title="3 of 4 branches missed.">		   assertTrue(playerA.coins==4 || estate==1); //check if either user recieved 4 coins or estate, if either true,Baron good </span>
+<span class="fc" id="L157">   }  </span>
+    @Test
+    public void testCouncil(){
+<span class="fc" id="L160">   	 playerA.numActions = 1;</span>
+<span class="fc" id="L161">	      playerA.coins = 0;</span>
+<span class="fc" id="L162">	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L163" title="All 2 branches covered.">	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L164">	    	  playerA.hand.remove(0);</span>
+	      }
+<span class="fc" id="L166">	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Council_room));</span>
+<span class="fc bfc" id="L167" title="All 2 branches covered.">	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L168">		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+	      }
+	      
+<span class="fc" id="L171">		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L172" title="1 of 2 branches missed.">		   assertTrue(playerA.hand.size()==9); </span>
+<span class="pc bpc" id="L173" title="1 of 2 branches missed.">		   assertTrue(playerB.hand.size()&gt;5);//player B should have more than 5 cards because they should have ambassador now</span>
+		   //it will fail because this is one of my bugs. The other player doesn't get another card.
+		   
+
+<span class="nc" id="L177">   }  </span>
+    @Test
+    public void testCutpurse(){
+<span class="fc" id="L180">      	 playerA.numActions = 1;</span>
+<span class="fc" id="L181">   	      playerA.coins = 0;</span>
+<span class="fc" id="L182">   	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L183" title="All 2 branches covered.">   	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L184">   	    	  playerA.hand.remove(0);</span>
+   	      }
+<span class="fc" id="L186">   	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cutpurse));</span>
+<span class="fc bfc" id="L187" title="All 2 branches covered.">   	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L188">   		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+   	      }
+   	      
+<span class="fc" id="L191">   		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L192" title="1 of 2 branches missed.">   		   assertTrue(playerA.coins==2); </span>
+   		   
+
+<span class="fc" id="L195">      }  </span>
+    @Test
+    public void testEmbargo(){
+<span class="fc" id="L198">      	 playerA.numActions = 1;</span>
+<span class="fc" id="L199">   	      playerA.coins = 0;</span>
+<span class="fc" id="L200">   	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L201" title="All 2 branches covered.">   	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L202">   	    	  playerA.hand.remove(0);</span>
+   	      }
+<span class="fc" id="L204">   	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Embargo));</span>
+<span class="fc bfc" id="L205" title="All 2 branches covered.">   	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L206">   		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+   	      }
+   	      
+<span class="fc" id="L209">   		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L210" title="1 of 2 branches missed.">   		   assertTrue(playerA.coins==2); </span>
+   		   
+
+<span class="fc" id="L213">      }  </span>
+    @Test
+    public void testFeast(){
+<span class="fc" id="L216">      	 playerA.numActions = 1;</span>
+<span class="fc" id="L217">   	      playerA.coins = 0;</span>
+<span class="fc" id="L218">   	      int good =1;</span>
+<span class="fc" id="L219">   	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L220" title="All 2 branches covered.">   	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L221">   	    	  playerA.hand.remove(0);</span>
+   	      }
+<span class="fc" id="L223">   	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Feast));</span>
+<span class="fc bfc" id="L224" title="All 2 branches covered.">   	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L225">   		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+   	      }
+<span class="fc bfc" id="L227" title="All 2 branches covered.">   	      for(int y=0; y&lt;5;y++){</span>
+<span class="pc bpc" id="L228" title="1 of 2 branches missed.">   	    	  if(playerA.hand.get(y).cost(playerA.hand.get(y))&gt;6){ // becasue all coopers, any card that is bigger than 5 will be a new one</span>
+<span class="nc" id="L229">   	    		  good = 0;</span>
+   	    	  }
+   	      }
+<span class="fc" id="L232">   		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L233" title="1 of 2 branches missed.">   		   assertTrue(good ==1); //player cannot get a card bigger than 5</span>
+   		   
+
+<span class="fc" id="L236">      }  </span>
+    @Test
+    public void testGardens(){
+<span class="fc" id="L239">      	 playerA.numActions = 1;</span>
+<span class="fc" id="L240">   	      playerA.coins = 0;</span>
+<span class="fc" id="L241">   	      playerA.numBuys = 1;</span>
+<span class="fc" id="L242">   	      int vicory = playerA.scoreFromPoints;</span>
+<span class="fc" id="L243">   	      int victoryAfter =0;</span>
+<span class="fc bfc" id="L244" title="All 2 branches covered.">   	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L245">   	    	  playerA.hand.remove(0);</span>
+   	      }
+<span class="fc" id="L247">   	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Gardens));</span>
+<span class="fc bfc" id="L248" title="All 2 branches covered.">   	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L249">   		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+   	      }
+   	      
+<span class="fc" id="L252">   		   playerA.playKingdomCard();</span>
+<span class="fc" id="L253">   		   victoryAfter = playerA.scoreFromPoints;</span>
+<span class="pc bpc" id="L254" title="1 of 2 branches missed.">   		   assertTrue(victoryAfter &gt;= vicory); //either has the same or more points</span>
+   		   
+
+<span class="fc" id="L257">      }  </span>
+    @Test
+    public void testGreathall(){
+<span class="fc" id="L260">      	 playerA.numActions = 1;</span>
+<span class="fc" id="L261">   	      playerA.coins = 0;</span>
+<span class="fc" id="L262">   	      playerA.numBuys = 1;</span>
+<span class="fc" id="L263">   	      int victory = playerA.scoreFromPoints;</span>
+<span class="fc bfc" id="L264" title="All 2 branches covered.">   	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L265">   	    	  playerA.hand.remove(0);</span>
+   	      }
+<span class="fc" id="L267">   	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Great_hall));</span>
+<span class="fc bfc" id="L268" title="All 2 branches covered.">   	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L269">   		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+   	      }
+   	      
+<span class="fc" id="L272">   		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L273" title="1 of 2 branches missed.">   		   assertTrue(playerA.numActions==1); </span>
+<span class="pc bpc" id="L274" title="1 of 2 branches missed.">   		   assertTrue(playerA.scoreFromPoints == victory +1); </span>
+
+
+<span class="fc" id="L277">      }  </span>
+    @Test
+    public void testMine(){
+<span class="fc" id="L280">      	 playerA.numActions = 1;</span>
+<span class="fc" id="L281">   	      playerA.coins = 0;</span>
+<span class="fc" id="L282">   	      int good =1;</span>
+<span class="fc" id="L283">   	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L284" title="All 2 branches covered.">   	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L285">   	    	  playerA.hand.remove(0);</span>
+   	      }
+<span class="fc" id="L287">   	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Mine));</span>
+<span class="fc bfc" id="L288" title="All 2 branches covered.">   	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L289">   		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+   	      }
+   	      
+   	      
+<span class="fc" id="L293">   		   playerA.playKingdomCard();</span>
+<span class="pc bpc" id="L294" title="1 of 2 branches missed.">   		   assertTrue(playerA.hand.size() ==4); //player tra</span>
+   		   
+
+<span class="fc" id="L297">      }  </span>
+    @Test
+    public void testscore(){
+<span class="fc" id="L300">    	playerA.numActions = 1;</span>
+<span class="fc" id="L301"> 	      playerA.coins = 0;</span>
+<span class="fc" id="L302">   	      int victory = playerA.scoreFromPoints;</span>
+<span class="fc" id="L303"> 	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L304" title="All 2 branches covered."> 	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L305"> 	    	  playerA.hand.remove(0);</span>
+ 	      }
+<span class="fc" id="L307"> 	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Mine));</span>
+<span class="fc bfc" id="L308" title="All 2 branches covered."> 	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L309"> 		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+ 	      }
+<span class="fc" id="L311"> 	      playerA.scoreFromPoints +=3;</span>
+ 		  // playerA.playKingdomCard();
+<span class="pc bpc" id="L313" title="1 of 2 branches missed."> 		   assertTrue(playerA.scoreFor()&gt;= victory+3); //player tra</span>
+ 		   
+    	
+<span class="fc" id="L316">    }</span>
+    @Test
+    public void testplaytreasure(){
+<span class="fc" id="L319">    	playerA.numActions = 1;</span>
+<span class="fc" id="L320"> 	      playerA.coins = 0;</span>
+<span class="fc" id="L321"> 	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L322" title="All 2 branches covered."> 	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L323"> 	    	  playerA.hand.remove(0);</span>
+ 	      }
+<span class="fc" id="L325"> 	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Mine));</span>
+<span class="fc bfc" id="L326" title="All 2 branches covered."> 	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L327"> 		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+ 	      }
+<span class="fc" id="L329"> 	      playerA.playTtreasureCard();</span>
+<span class="pc bpc" id="L330" title="1 of 2 branches missed."> 		   assertTrue(playerA.coins == 4 ); //player tra</span>
+ 		   
+    	
+<span class="fc" id="L333">    }</span>
+    @Test
+    public void testendturn(){
+<span class="fc" id="L336">    	playerA.numActions = 1;</span>
+<span class="fc" id="L337"> 	      playerA.coins = 0;</span>
+<span class="fc" id="L338"> 	      playerA.numBuys = 1;</span>
+<span class="fc bfc" id="L339" title="All 2 branches covered."> 	      for(int k=0; k&lt;5;k++){</span>
+<span class="fc" id="L340"> 	    	  playerA.hand.remove(0);</span>
+ 	      }
+<span class="fc" id="L342"> 	      playerA.hand.add(Card.getCard(cardList,Card.CardName.Mine));</span>
+<span class="fc bfc" id="L343" title="All 2 branches covered."> 	      for(int i =0; i&lt;4; i++){</span>
+<span class="fc" id="L344"> 		      playerA.hand.add(Card.getCard(cardList,Card.CardName.Cooper));</span>
+ 	      }
+<span class="fc" id="L346"> 	      playerA.endTurn();</span>
+<span class="pc bpc" id="L347" title="1 of 2 branches missed."> 		   assertTrue(playerA.hand.size()==5); //player tra</span>
+<span class="pc bpc" id="L348" title="1 of 2 branches missed."> 		   assertTrue(playerA.discard.size()==0); //player tra</span>
+
+ 		   
+    	
+<span class="fc" id="L352">    }</span>
+   @Test 
+   public void testgetCard(){
+<span class="fc" id="L355">	   Card name = Card.getCard(cardList,Card.CardName.Silver);</span>
+<span class="pc bpc" id="L356" title="1 of 2 branches missed.">	   assertTrue(Card.CardName.Silver == name.getCardName());</span>
+	   
+<span class="fc" id="L358">   }</span>
+   @Test
+	
+   public void testDiscardPlayedTrash(){
+	   
+<span class="fc" id="L363">   }</span>
+   @Test
+   public void testintializing(){
+<span class="fc" id="L366">	   cardList1 = Card.createCards();</span>
+	    GameState gameState1;
+<span class="fc" id="L368">		cardList1 = new ArrayList&lt;Card&gt;(Card.createCards());</span>
+<span class="fc" id="L369">		gameState1 = new GameState(cardList1);</span>
+<span class="fc" id="L370">	    playerA1 = new Player(gameState1, &quot;player A1&quot;);</span>
+<span class="fc" id="L371">	    gameState1.addPlayer(playerA1);</span>
+	    
+    //   assertTrue(gameState1.initializeGame());
+	   
+<span class="fc" id="L375">   }</span>
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span>CardTest (2) (Feb 13, 2017 10:21:44 PM)</div></body></html>

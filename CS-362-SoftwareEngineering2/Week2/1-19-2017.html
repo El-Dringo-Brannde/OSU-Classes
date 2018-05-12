@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <style>
+            table,
+            td,
+            tr {
+                border: 1px solid black;
+            }
+
+            code {
+                white-space: pre;
+                background-color: lightgrey;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2>Test Suite vs Test Case</h2>
+        <table>
+            <tr>
+                <td> Test Case </td>
+                <td> Test Suite </td>
+            </tr> <br />
+            <td> A set of inputs w/ pass fail criterion, one execution of the program to potentially expose a bug</td>
+            <td> A set of test cases that are all grouped together </td>
+        </table>
+        <h2>Functional Testing vs Structural testing </h2>
+        <table>
+            <tr>
+                <td> Functional </td>
+                <td> Structural </td>
+            </tr>
+            <td>
+                <li> Only inteded result is needed, test program on what you hope happens </li>
+                <li> Applies at all levels: Unit tests, integration tests, System, Regression </li>
+            </td>
+        </table>
+        <h2>Random vs Systemic Testing</h2>
+        <h4>Random</h4>
+        <li> Avoids Designer bias </li>
+        <li> Hits improbable cases </li>
+        <h4> Systemic</h4>
+        <li> Tries inputs that are likely to be used </li>
+        <li> Chooses cases that are likely to fail </li>
+        <li> Functional testing is Systemic </li>
+        <h2>Why is random testing bad?</h2> <img src="https://tothereal.files.wordpress.com/2013/05/quadratic-formula.jpg" height=2 00 />
+        <li> In a random testing environment, it might not check that a = 0.0 </li>
+        <h2>Systemic Functional testing</h2>
+        <li> Decompose the software to test
+            <ul>
+                <li> Find a Indepent testable feature </li>
+            </ul>
+            <li> Representative values </li>
+            <li> Find values that are likely to fail </li>
+        </li>
+        <h2>Equivalence partionioning and boundary conditions</h2>
+        <li> Choose input you know will work, and choose input that is right outside the fail case, and at the fail case </li>
+        <h2> Partition testing is usually better as it hits more used test cases</h2> <br /><br /><br />
+        <h1>Structural testing</h1>
+        <li> Design source code to be structurally testable with control branches </li> <code>
+          1.public class Root {
+          2. double rootOne, rootTwo;
+          3. int numRoots;
+          4. public Root(double a, double b, double c) {
+          5.  double q;
+          6.  double r;
+          7.  q = b * b - 4 * a * c;
+          8.  if (q > 0 && a != 0) {
+          9.  // if b^2 > 4ac there are two dinstict roots
+          10.   numRoots = 2;
+          11.   r = (double) Math.sqrt(q);
+          12.   rootOne = ((0 - b) + r) / (2 * a);
+          13.   rootTwo = ((0 - b) - r) / (2 * a);
+          14. } else if (q == 0) { // DEFECT HERE
+          15.     numRoots = 1;
+          16.     rootOne = (0 - b) / (2 * a);
+          17.     rootTwo = rootOne;
+          18.   } else {
+          19.// equation had no roots if b^24ac
+          20.       numRoots = 0;
+          21.       rootOne = -1;
+          22.       rootTwo = -1;
+          23.     }
+          24.   }
+          25.}</code><br /> <img src="http://seattlecentral.edu/~ymoh/mic110vb/images4intro_to_programming/flowchart.gif" />
+        <h2>Control flow graphs break up sections of the program into testable sections</h2> </body>
+
+</html>

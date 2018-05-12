@@ -1,0 +1,143 @@
+<html>
+<head>
+<style type='text/css'>
+html, body, div, span, p, blockquote, pre {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-weight: inherit;
+	font-style: inherit;
+	font-size: 100%;
+	font-family: inherit;
+	vertical-align: baseline;
+}
+
+body{
+	line-height: 1;
+	color: black;
+	background: white;
+	margin-left: 20px;
+}
+
+.src { 
+	border: 1px solid #dddddd;
+	padding-top: 10px;
+	padding-right: 5px;
+	padding-left: 5px;
+	font-family: Consolas, Courier, monospace;
+}
+
+
+.covered {background-color: #ddffdd}
+.uncovered {background-color: #ffdddd}
+.killed {background-color: #aaffaa}
+.survived {background-color: #ffaaaa}
+.uncertain {background-color: #dde7ef}
+.run_error {background-color: #dde7ef}
+.na {background-color: #eeeeee}
+.timed_out {background-color: #dde7ef}
+.non_viable {background-color: #aaffaa}
+.memory_error {background-color: #dde7ef}
+.not_started {background-color: #dde7ef; color : red}
+.no_coverage {background-color: #ffaaaa}
+
+
+.pop {outline:none; }
+.pop strong {line-height:30px;}
+.pop {text-decoration:none;}
+.pop span { z-index:10;display:none; padding:14px 20px; margin-top:-30px; margin-left:28px; width:800px; line-height:16px; word-wrap:break-word; }
+.pop:hover span{ display:inline; position:absolute; color:#111; border:1px solid #DCA; background:#fffAF0;}
+
+.pop span { border-radius:4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -moz-box-shadow: 5px 5px 8px #CCC; -webkit-box-shadow: 5px 5px 8px #CCC; box-shadow: 5px 5px 8px #CCC; }
+</style>
+
+</head>
+<body>
+
+
+<h1>Cards.java</h1>
+
+<table class="src">
+
+
+
+<tr><td></td><td></td><td><h2>Mutations</h2></td></tr>
+
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@5597ca3_19'>19</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@5597ca3_19'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getName<br/><b>Killed by : </b>dominion.CardsTest.testGetName(dominion.CardsTest)</span></span> mutated return of Object value for dominion/Cards::getName to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@5597ca3_21'>21</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@5597ca3_21'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getToken<br/><b>Killed by : </b>dominion.CardsTest.testEmbargo(dominion.CardsTest)</span></span> mutated return of Object value for dominion/Cards::getToken to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@5597ca3_23'>23</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@5597ca3_23'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getCost<br/><b>Killed by : </b>dominion.CardsTest.testCost(dominion.CardsTest)</span></span> replaced return of integer sized value with (x == 0 ? 1 : 0) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@5597ca3_27'>27</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@5597ca3_27'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>toString<br/><b>Killed by : </b>dominion.CardsTest.testCardsandString(dominion.CardsTest)</span></span> mutated return of Object value for dominion/Cards::toString to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+<tr>
+<td><a href='#org.pitest.mutationtest.report.html.SourceFile@5597ca3_33'>33</a></td> 
+<td></td>
+<td>
+
+<a name='grouporg.pitest.mutationtest.report.html.SourceFile@5597ca3_33'/> 
+
+<p class='KILLED'><span class='pop'>1.<span><b>1</b><br/><b>Location : </b>getType<br/><b>Killed by : </b>dominion.CardsTest.testType(dominion.CardsTest)</span></span> mutated return of Object value for dominion/Cards::getType to ( if (x != null) null else throw new RuntimeException ) &rarr; KILLED</p> 
+</td>
+</tr>
+
+</table>
+
+
+<h2>Active mutators</h2>
+<ul>
+<li class='mutator'>INCREMENTS_MUTATOR</li>
+<li class='mutator'>VOID_METHOD_CALL_MUTATOR</li>
+<li class='mutator'>RETURN_VALS_MUTATOR</li>
+<li class='mutator'>MATH_MUTATOR</li>
+<li class='mutator'>NEGATE_CONDITIONALS_MUTATOR</li>
+<li class='mutator'>INVERT_NEGS_MUTATOR</li>
+<li class='mutator'>CONDITIONALS_BOUNDARY_MUTATOR</li>
+
+</ul>
+
+<h2>Tests examined</h2>
+<ul>
+<li>dominion.CardsTest.testGetName(dominion.CardsTest) (1 ms)</li><li>dominion.CardsTest.testType(dominion.CardsTest) (1 ms)</li><li>dominion.playerTest.testVillage(dominion.playerTest) (2 ms)</li><li>dominion.playerTest.testPlayStats(dominion.playerTest) (4 ms)</li><li>dominion.playerTest.testWorkshop(dominion.playerTest) (4 ms)</li><li>dominion.playerTest.testAdventurer(dominion.playerTest) (34 ms)</li><li>dominion.playDominionTest.testCheckEmptyPile(dominion.playDominionTest) (1 ms)</li><li>dominion.CardsTest.testCardsandString(dominion.CardsTest) (9 ms)</li><li>dominion.playerTest.testGarden(dominion.playerTest) (2 ms)</li><li>dominion.playerTest.testGreatHall(dominion.playerTest) (1 ms)</li><li>dominion.playerTest.testGetDeck(dominion.playerTest) (1 ms)</li><li>dominion.CardsTest.testEmbargo(dominion.CardsTest) (1 ms)</li><li>dominion.playerTest.testEmbargo(dominion.playerTest) (3 ms)</li><li>dominion.CardsTest.testgetToken(dominion.CardsTest) (2 ms)</li><li>dominion.CardsTest.testCost(dominion.CardsTest) (2 ms)</li><li>dominion.playerTest.testCouncilRoom(dominion.playerTest) (3 ms)</li><li>dominion.playerTest.testPayPiper(dominion.playerTest) (3 ms)</li><li>dominion.playerTest.testBaron(dominion.playerTest) (2 ms)</li><li>dominion.playerTest.testGetHand(dominion.playerTest) (0 ms)</li><li>dominion.playDominionTest.testPlay(dominion.playDominionTest) (9 ms)</li><li>dominion.playerTest.testMine(dominion.playerTest) (4 ms)</li><li>dominion.playerTest.testMarket(dominion.playerTest) (1 ms)</li>
+</ul>
+
+<br/>
+
+Report generated by <a href='http://pitest.org'>PIT</a> 1.1.11
+
+</body>
+</html>
