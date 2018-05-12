@@ -1,0 +1,1632 @@
+{
+	"info": {
+		"name": "CS 496 - Mobile & Cloud Dev - Ass 2",
+		"_postman_id": "e054c017-d85a-3cbb-8d54-872056f06670",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "POST - boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0981426e-48d4-4cb0-b597-15a8f3260835",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Should add to the overall boat count', function(){",
+							"    var server = pm.environment.get(\"URL\");",
+							"    var prevBoatLength = pm.environment.get(\"boatCount\");",
+							"    ",
+							"    pm.sendRequest(server + '/boats' , function (err, response) {",
+							"        var curBoatCount = response.json().length;",
+							"        pm.expect(prevBoatLength).to.equal(curBoatCount - 1)",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Should have the proper fields\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.type).to.eql(\"catamaran\");",
+							"    pm.expect(jsonData.length).to.eql(5);",
+							"    pm.expect(jsonData.at_sea).to.eql(\"true\");",
+							"    pm.expect(jsonData.docked_at).to.eql(\"\");",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "abcd02be-cf59-451c-996d-66156fb31050",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"pm.sendRequest(server + \"/boats\", function (err, response) {",
+							"    pm.environment.set('boatCount', response.json().length)",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"catamaran\",\n\t\"length\": 5,\n\t\"name\": \"Brandon\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat"
+					]
+				},
+				"description": "Should add a boat to the overall count"
+			},
+			"response": []
+		},
+		{
+			"name": "BOGUS POST - boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1524023c-6790-4096-93ae-a4b085cdd666",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should have an error thrown\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Status).to.equal(503)",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "7dd55e88-8d73-457b-87e1-a1d1261b22c2",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat"
+					]
+				},
+				"description": "Demonstrate bad request in the post field"
+			},
+			"response": []
+		},
+		{
+			"name": "slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a30d9fea-5341-4397-b7ed-7887e7b64111",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Should add to the overall boat count', function(){",
+							"    var server = pm.environment.get(\"URL\");",
+							"    var prevSlipLength = pm.environment.get(\"slipCount\");",
+							"    ",
+							"    pm.sendRequest(server + '/slips' , function (err, response) {",
+							"        var curSlipCount = response.json().length;",
+							"        pm.expect(prevSlipLength).to.equal(curSlipCount - 1)",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Should have the proper fields\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.number).to.be.a('number');",
+							"    pm.expect(jsonData.current_boat).to.eql(\"\");",
+							"    pm.expect(jsonData.arrival_date).to.eql(\"\");",
+							"    pm.expect(jsonData.departure_history).to.eql([]);",
+							"    ",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "39bdcd6b-a67a-4490-ad75-d60f05b8f0e7",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"pm.sendRequest(server + \"/slips\", function (err, response) {",
+							"    pm.environment.set('slipCount', response.json().length)",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip"
+					]
+				},
+				"description": "Should demonstrate adding a slip to the overall slip count"
+			},
+			"response": []
+		},
+		{
+			"name": "All boats",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "989779f3-18fd-4e1f-b9cc-68dcf687b5b2",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 5,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f3ee8cd5-570c-495d-bd20-d7f8e7175935",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Should find atleast one boat', function(){",
+							"    var server = pm.environment.get(\"URL\");",
+							"    ",
+							"    pm.sendRequest(server + '/boats' , function (err, response) {",
+							"        var curBoatCount = response.json().length;",
+							"        pm.expect(curBoatCount).to.not.equal(0)",
+							"    });",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boats",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boats"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get boats with query string",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "39da5532-1622-4bf0-9a4f-0dea4c8f9ef3",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 15,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f4781ae9-bfdc-41e4-ad3c-a6ce089dd53e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should find only boats with length 15\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(jsonData.length).to.not.equal(0)",
+							"    console.log(jsonData)",
+							"    for (var i in jsonData){",
+							"        pm.expect(jsonData[i].length).to.equal(15)",
+							"    }",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boats?length=15",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boats"
+					],
+					"query": [
+						{
+							"key": "length",
+							"value": "15",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get boats by ID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "4ccccf0e-d7a6-44ce-8a94-43b743122f7c",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"var newID;",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 15,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    pm.environment.set(\"TEST_BOAT_ID\",response.json()._id)",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "55e416ae-7d62-4e09-8437-63b2b413220f",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should find only one boat\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.not.equal(0)",
+							"});",
+							"",
+							"pm.test(\"Should match the test boat id\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var testID = pm.environment.get(\"TEST_BOAT_ID\")",
+							"    ",
+							"    pm.expect(jsonData[0]._id).to.eql(testID);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boats/{{TEST_BOAT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boats",
+						"{{TEST_BOAT_ID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get boats at sea",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "39da5532-1622-4bf0-9a4f-0dea4c8f9ef3",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 15,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "06326dbe-fe15-4e03-8d7b-40e1db0c84bc",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should find only boats at sea\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(jsonData.length).to.not.equal(0)",
+							"    for (var i in jsonData){",
+							"        pm.expect(jsonData[i].at_sea).to.equal(\"true\")",
+							"    }",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boats/at_sea",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boats",
+						"at_sea"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Get boats that are docked",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "39b17c5b-f53f-42e5-b040-aeb59a651429",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"var boatID; ",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 15,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"   boatID = response.json()._id",
+							"   pm.sendRequest({",
+							"        url: server + '/boat/' + boatID + '/arrival',",
+							"        method: 'patch'",
+							"    }, function (err, response) {",
+							"    })",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "3977dea0-58e8-40df-addf-101997d72f56",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should find only boats at sea\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.not.equal(0)",
+							"    for (var i in jsonData){",
+							"        pm.expect(jsonData[i].at_sea).to.equal(\"false\")",
+							"    }",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boats/docked",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boats",
+						"docked"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET - SLIP",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "2ba0234e-a4f9-40e0-85e6-08f050edf79c",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/slip',",
+							"    method: 'post'",
+							"}, function (err, response) {});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "1de91376-ce09-465c-9531-e3f3bef6f3f9",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should atleast one slip from the response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(jsonData.length).to.not.equal(0)",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slips",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slips"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GET - SLIP by ID",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "24b3bd64-151d-4d4f-8822-8e04ed2c6f73",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/slip',",
+							"    method: 'post'",
+							"}, function (err, response) {",
+							"    var newID = response.json().number",
+							"    pm.environment.set(\"TEST_SLIP_ID\", newID)",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "4c0ad5b1-4542-4946-9d01-a6111c59b21c",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should only one slip from the response\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    ",
+							"    pm.expect(jsonData.length).to.not.equal(0)",
+							"});",
+							"",
+							"pm.test(\"Should match the given testID\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var testSlipID = pm.environment.get(\"TEST_SLIP_ID\")",
+							"    pm.expect(jsonData[0].number).to.equal(testSlipID)",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slips/{{TEST_SLIP_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slips",
+						"{{TEST_SLIP_ID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PUT -Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2131dc0f-a138-4bee-a54a-15cbe9230183",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that there is no put methods on the slip method\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip"
+					]
+				},
+				"description": "Should say that there is no methods allowed for doing a 'PUT' on a slip"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT -Slip with ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2131dc0f-a138-4bee-a54a-15cbe9230183",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that there is no put methods on the slip method\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip/5a76b7908649dd090b243c9a",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"5a76b7908649dd090b243c9a"
+					]
+				},
+				"description": "Should say that there is no methods allowed for doing a 'PUT' on a slip"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - Boat",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2131dc0f-a138-4bee-a54a-15cbe9230183",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that there is no put methods on the slip method\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat"
+					]
+				},
+				"description": "Should say that there is no methods allowed for doing a 'PUT' on a slip"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT - Boat with ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2131dc0f-a138-4bee-a54a-15cbe9230183",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that there is no put methods on the slip method\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}"
+					]
+				},
+				"description": "Should say that there is no methods allowed for doing a 'PUT' on a slip"
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH - Slip",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d6fbb039-5a21-40b8-b480-76bd9f8c0f67",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that there is no put methods on the slip method\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/slip",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH - Slip with ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d6fbb039-5a21-40b8-b480-76bd9f8c0f67",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that there is no put methods on the slip method\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(403);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/slip/5a76b7908649dd090b243c9a",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"5a76b7908649dd090b243c9a"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PATCH - Boat with ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e6328c95-b06c-492b-b881-a1d8915e065b",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should change the properties of the boat\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(jsonData.length).to.eql(30);",
+							"    pm.expect(jsonData.type).to.eql('sail');",
+							"    pm.expect(jsonData.name).to.eql('Kelli');",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "0b4851e3-766d-4668-806f-d4c5ed3c5fc0",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 15,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    console.log(response.json())",
+							"    pm.environment.set('TEST_BOAT_ID', response.json()._id)",
+							"    ",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"sail\",\n\t\"length\": 30, \n\t\"name\": \"Kelli\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "BOGUS PATCH - Boat with ID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "8422c339-10d6-40ec-90fd-caeb5c89f0af",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that there is no put methods on the slip method\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.Status).to.eql(503);",
+							"    pm.expect(jsonData.Message).to.eql(\"Bad Request\");",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "6acf0fe0-d984-462c-acb6-fee9a3f356d7",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 15,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    console.log(response.json())",
+							"    pm.environment.set('TEST_BOAT_ID', response.json()._id)",
+							"    ",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"type\": \"not a good boat type\",\n\t\"length\": \"52353\", \n\t\"name\": \"Kelli\"\n}"
+				},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "park / arrive",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "de9d9897-7de2-441c-8679-baf01d314ceb",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 25,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    var newID = response.json()._id",
+							"    console.log(newID)",
+							"    pm.environment.set(\"TEST_BOAT_ID\", newID);",
+							"  ",
+							"    pm.sendRequest({",
+							"        url: server + '/slip',",
+							"        method: 'post'",
+							"    }, function(err, response){",
+							"        var slipID = response.json()._id",
+							"        var boatID = pm.environment.get(\"TEST_BOAT_ID\", newID);",
+							"        pm.environment.set('TEST_SLIP_ID', slipID)",
+							"        pm.sendRequest({",
+							"            url: server + '/boat/' + boatID + '/arrival',",
+							"            method: 'PATCH'",
+							"        }, function (err, response) {",
+							"            ",
+							"        })",
+							"    })",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "de979488-cf72-4450-9b02-3895541147e2",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should find that the new boat is docked\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.equal(503)",
+							"    pm.expect(jsonData.Message).to.equal('Boat already docked.')",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}/arrival",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}",
+						"arrival"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "park / arrive - AT SEA",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "960f947b-eea0-4be4-91f0-33fa0946c7d0",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 25,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    var newID = response.json()._id",
+							"    console.log(newID)",
+							"    pm.environment.set(\"TEST_BOAT_ID\", newID);",
+							"  ",
+							"    pm.sendRequest({",
+							"        url: server + '/slip',",
+							"        method: 'post'",
+							"    }, function(err, response){",
+							"        var slipID = response.json()._id",
+							"        pm.environment.set('TEST_SLIP_ID', slipID)",
+							"    })",
+							"});"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "774aeffd-097f-4d1e-9610-8d60471124d0",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should find that the new boat is docked\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.slip.current_boat).to.equal(jsonData.boat._id) ",
+							"    pm.expect(jsonData.boat._id).to.equal(jsonData.slip.current_boat)",
+							"    pm.expect(jsonData.boat.docked_at).to.equal(jsonData.slip.number)",
+							"    pm.expect(jsonData.slip.number).to.equal(jsonData.boat.docked_at)",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}/arrival",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}",
+						"arrival"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Depart boat",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "387d10bd-d081-412a-9c53-e4fe95c7e772",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"var boatID;",
+							"",
+							"pm.sendRequest({ // create boat",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 25,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) { ",
+							"    boatID = response.json()._id",
+							"    pm.environment.set(\"TEST_BOAT_ID\", boatID);        ",
+							"    pm.sendRequest({ // create slip",
+							"        url: server + '/slip',",
+							"        method: 'post'",
+							"    }, function(err, response){  ",
+							"        pm.environment.set('TEST_SLIP_ID', response.json()._id)",
+							"        pm.sendRequest({ // dock boat",
+							"                url: server + '/boat/' + boatID + '/arrival',",
+							"                method: 'PATCH'",
+							"            }, function (err, response) {",
+							"        })",
+							"    })   ",
+							"});",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "f11307bd-4b84-4937-9f55-7659f1ba67c6",
+						"type": "text/javascript",
+						"exec": [
+							"var boatID = pm.environment.get(\"TEST_BOAT_ID\");",
+							"",
+							"pm.test(\"Should state Test boat ID match boat ID departing\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.boat._id).to.eql(boatID);    ",
+							"});",
+							"",
+							"pm.test(\"Should state that the boat is at sea\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.boat.at_sea).to.eql(\"true\");",
+							"});",
+							"",
+							"pm.test(\"Should state that the slip is open\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.slip.current_boat).to.eql(\"\");",
+							"    pm.expect(jsonData.slip.arrival_date).to.eql(\"\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}/depart",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}",
+						"depart"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Depart boat - AT SEA",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "ccf12277-596f-4059-a286-3644c815c79e",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 25,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    var newID = response.json()._id",
+							"    console.log(newID)",
+							"    pm.environment.set(\"TEST_BOAT_ID\", newID);        ",
+							"    pm.sendRequest({",
+							"        url: server + '/slip',",
+							"        method: 'post'",
+							"    }, function(err, response){",
+							"        console.log(response.json())",
+							"        ",
+							"        // pm.environment.set(\"TEST_SLIP_ID\", \"variable_value\");        ",
+							"    })   ",
+							"});",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "434c181c-57ea-4e5b-a136-e0120a4b4bec",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should say that the boat is already at sea\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(503);",
+							"    pm.expect(jsonData.Message).to.eql('Boat already at sea.');",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}/depart",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}",
+						"depart"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Boat",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "84e80f7b-a511-41bf-b429-c7890af10d50",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"        \t\"type\": \"catamaran\",",
+							"        \t\"length\": 15,",
+							"        \t\"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    var newID = response.json()._id",
+							"    pm.environment.set(\"TEST_BOAT_ID\", newID);",
+							"});",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "8a0d804a-7862-4336-bd40-185fe45c2cfa",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Should not find the document of the TEST_BOAT_ID', function(){",
+							"    var server = pm.environment.get(\"URL\");",
+							"    var TEST_BOAT_ID = pm.environment.get(\"TEST_BOAT_ID\");",
+							"    ",
+							"    pm.sendRequest(server + '/boats/' + TEST_BOAT_ID , function (err, response) {",
+							"        var selectedBoat = response.json();",
+							"        pm.expect(selectedBoat.length).to.equal(0)",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Should have the response be a typical mongo result data type\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.n).to.eql(1);",
+							"    pm.expect(jsonData.ok).to.eql(1);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE - Boat DOCKED",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "82b224a7-f36b-4883-be4f-b46f6a093437",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/boat',",
+							"    method: 'post',",
+							"    body: {",
+							"        mode: \"raw\", ",
+							"        raw: JSON.stringify({",
+							"          \"type\": \"catamaran\",",
+							"          \"length\": 15,",
+							"          \"name\": \"Brandon\"",
+							"        })",
+							"    }",
+							"}, function (err, response) {",
+							"    var boatID = response.json()._id",
+							"    pm.environment.set(\"TEST_BOAT_ID\", boatID);",
+							"    pm.sendRequest({",
+							"        url: server + '/boat/' + boatID + '/arrival',",
+							"        method: 'PATCH'",
+							"        }, function (err, response) {",
+							"            var slipID = response.json().slip._id",
+							"            pm.environment.set(\"TEST_SLIP_ID\", slipID);",
+							"    })",
+							"});",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "41a3b720-019c-4978-b238-fa2142e2f548",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test('Should not find the document of the TEST_BOAT_ID', function(){",
+							"    var server = pm.environment.get(\"URL\");",
+							"    var TEST_BOAT_ID = pm.environment.get(\"TEST_BOAT_ID\");",
+							"    ",
+							"    pm.sendRequest(server + '/boats/' + TEST_BOAT_ID , function (err, response) {",
+							"        var selectedBoat = response.json();",
+							"        pm.expect(selectedBoat.length).to.equal(0)",
+							"    });",
+							"});",
+							"",
+							"",
+							"pm.test(\"Boat should be a mongo result success data type\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    console.log(jsonData)",
+							"    pm.expect(jsonData.boat.n).to.eql(1);",
+							"    pm.expect(jsonData.boat.ok).to.eql(1);",
+							"});",
+							"",
+							"",
+							"pm.test(\"Cleared slip should match the original slip id \", function () {",
+							"    var jsonData = pm.response.json();",
+							"    var ogSlipID = pm.environment.get(\"TEST_SLIP_ID\");",
+							"    pm.expect(jsonData.slip._id).to.eql(ogSlipID);",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/boat/{{TEST_BOAT_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"boat",
+						"{{TEST_BOAT_ID}}"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "Slip",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "91b29cd6-93c0-49ea-b8bd-515faf6ac728",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({",
+							"    url: server + '/slip',",
+							"    method: 'post',",
+							"}, function (err, response) {",
+							"    var newID = response.json()._id",
+							"    console.log(response.json())",
+							"    pm.environment.set(\"TEST_SLIP_ID\", newID);",
+							"});",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0511cc67-6996-48e5-ba1d-8b11d2cd1afe",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Should have the response be a typical mongo result success data type\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.n).to.eql(1);",
+							"    pm.expect(jsonData.ok).to.eql(1);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip/{{TEST_SLIP_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"{{TEST_SLIP_ID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Slip - SLIP OCCUPIED",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "e8dab159-5180-4559-9659-b5b8c7b962fd",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\");",
+							"",
+							"pm.sendRequest({ // create slip",
+							"    url: server + '/slip',",
+							"    method: 'post',",
+							"}, function (err, response) {",
+							"    var newID = response.json()._id",
+							"    console.log(response.json())",
+							"    pm.environment.set(\"TEST_SLIP_ID\", newID);",
+							"    pm.sendRequest({ //create boat",
+							"        url: server + '/boat',",
+							"        method: 'post',",
+							"        body: {",
+							"            mode: \"raw\", ",
+							"            raw: JSON.stringify({",
+							"            \t\"type\": \"catamaran\",",
+							"            \t\"length\": 15,",
+							"            \t\"name\": \"Brandon\"",
+							"            })",
+							"        }",
+							"    }, function (err, response) {",
+							"        var boatID = response.json()._id",
+							"        pm.environment.set(\"TEST_BOAT_ID\", boatID);",
+							"        pm.sendRequest({ // dock boat",
+							"            url: server + '/boat/' + boatID + '/arrival',",
+							"            method: 'PATCH'",
+							"        }, function (err, response) {",
+							"        })",
+							"    });",
+							"});",
+							"",
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "33dd7c53-7d6b-4197-8b74-e2e6978b2d29",
+						"type": "text/javascript",
+						"exec": [
+							"var server = pm.environment.get(\"URL\")",
+							"var boatID = pm.environment.get(\"TEST_BOAT_ID\")",
+							"var slipID = pm.environment.get(\"TEST_SLIP_ID\")",
+							"",
+							"pm.test(\"Should have the response be a typical mongo result success data type\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.slip.n).to.eql(1);",
+							"    pm.expect(jsonData.slip.ok).to.eql(1);",
+							"});",
+							"",
+							"pm.test('Should not be able to find the boat based off of ID', function() {",
+							"    pm.sendRequest(server + '/boats/'  + boatID, function (err, response) {",
+							"        var resp = response.json()",
+							"        pm.expect(resp.length).to.eql(0);",
+							"    });",
+							"})",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{URL}}/slip/{{TEST_SLIP_ID}}",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"slip",
+						"{{TEST_SLIP_ID}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
