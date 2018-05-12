@@ -1,0 +1,216 @@
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans|Raleway' rel='stylesheet' type='text/css'>
+    <style>
+        html,
+        body,
+        #map-canvas {
+            height: 100%;
+            margin: 0px;
+            padding: 0px;
+            font-family: 'Raleway', sans-serif;
+            z-index: 1;
+        }
+
+        #draggable {
+            z-index: 100;
+            background-color: rgba(200, 200, 255, .7);
+            width: 250px;
+            padding: 20px;
+            position: absolute;
+            top: 10px;
+            left: 100px;
+            cursor: move;
+            border: black 1px solid;
+        }
+
+        #radius-label,
+        #opacity-label,
+        #max-label {
+            margin-top: 10px;
+        }
+
+        #radius-slider,
+        #opacity-slider,
+        #max-slider {
+            width: 250px;
+            margin-top: 10px;
+        }
+
+        #project {
+            font-size: 10pt;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        #radius-slider .ui-slider-handle,
+        #opacity-slider .ui-slider-handle,
+        #max-slider .ui-slider-handle {
+            cursor: pointer;
+        }
+    </style>
+
+    <script src="./papaparse.min.js"></script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDRY-gqzXVwMVc9CipzgdLFapcPBw_ORz8&v=3.exp&libraries=visualization"></script>
+    <script type="text/javascript" src="/js/jquery.ui.map.overlays.js"></script>
+    <script type="text/javascript" src="/js/jquery.ui.map.extensions.js"></script>
+
+
+    <script src="./jquery-2.1.1.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.0/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.11.0/themes/smoothness/jquery-ui.css">
+
+    <script>
+        var map, pointarray, heatmap;
+        var csv = [];
+
+
+        function handleFileSelect(evt) {
+            var file = evt.target.files[0];
+
+            Papa.parse(file, {
+                header: true,
+                dynamicTyping: true,
+                complete: function(results) {
+                    csv = [];
+                    marks = [];
+
+                    for (idx in results["data"]) {
+                        var row = results["data"][idx];
+                        marks.push([row["lat"], row["lng"], row["Address"], row["Street"], row["Date"], row["Time"], row["OrderTotal"], row["Tip$"]]);
+                    }
+
+                    var marker;
+
+                    function getIcon(marks, i) {
+                      let Dollar; //fixes scope closure
+                        if (marks[i][7] < 1 && marks[i][7] >= 0) {
+                            return Dollar = {
+                                url: './number_0.png',
+                                size: new google.maps.Size(32, 32),
+                                origin: new google.maps.Point(0, 0),
+                                // The anchor for this image is the base of the flagpole at (0, 32).
+                                anchor: new google.maps.Point(0, 32)
+                            };
+                        }
+                        else if (marks[i][7] < 2 && marks[i][7] >= 1){
+                          return Dollar = {
+                              url: './number_1.png',
+                              size: new google.maps.Size(32, 32),
+                              origin: new google.maps.Point(0, 0),
+                              // The anchor for this image is the base of the flagpole at (0, 32).
+                              anchor: new google.maps.Point(0, 32)
+                          };
+                        }
+                        else if (marks[i][7] < 3 && marks[i][7] >= 2){
+                          return Dollar = {
+                              url: './number_2.png',
+                              size: new google.maps.Size(32, 32),
+                              origin: new google.maps.Point(0, 0),
+                              // The anchor for this image is the base of the flagpole at (0, 32).
+                              anchor: new google.maps.Point(0, 32)
+                          };
+                        }
+                        else if (marks[i][7] < 4 && marks[i][7] >= 3){
+                          return Dollar = {
+                              url: './number_3.png',
+                              size: new google.maps.Size(32, 32),
+                              origin: new google.maps.Point(0, 0),
+                              // The anchor for this image is the base of the flagpole at (0, 32).
+                              anchor: new google.maps.Point(0, 32)
+                          };
+                        }
+                        else if (marks[i][7] < 5 && marks[i][7] >= 4){
+                          return Dollar = {
+                              url: './number_4.png',
+                              size: new google.maps.Size(32, 32),
+                              origin: new google.maps.Point(0, 0),
+                              // The anchor for this image is the base of the flagpole at (0, 32).
+                              anchor: new google.maps.Point(0, 32)
+                          };
+                        }
+                        else if (marks[i][7] < 6 && marks[i][7] >= 5){
+                          return Dollar = {
+                              url: './number_5.png',
+                              size: new google.maps.Size(32, 32),
+                              origin: new google.maps.Point(0, 0),
+                              // The anchor for this image is the base of the flagpole at (0, 32).
+                              anchor: new google.maps.Point(0, 32)
+                          };
+                        }
+                        else if (marks[i][7] >= 5.01){
+                          return Dollar = {
+                              url: './symbol_dollar.png',
+                              size: new google.maps.Size(32, 32),
+                              origin: new google.maps.Point(0, 0),
+                              // The anchor for this image is the base of the flagpole at (0, 32).
+                              anchor: new google.maps.Point(0, 32)
+                          };
+                        }
+                    }
+                    var infoWindow = new google.maps.InfoWindow(),
+                        marker, i;
+                    for (i = 0; i < marks.length; i++) {
+                        var position = {
+                            lat: marks[i][0],
+                            lng: marks[i][1]
+                        };
+
+                        marker = new google.maps.Marker({
+                            position: position,
+                            map: map,
+                            icon: getIcon(marks, i),
+                            title: '<h1>' + "Location" + '</h1>' + marks[i][0].toString() + " " + marks[i][1].toString().replace("+", " ") +
+                                '<h2> Date & Time</h2>' + marks[i][4].toString() +
+                                " " + marks[i][5].toString() + ' <h3> Total & Tip </h3> ' +
+                                "Total:" + marks[i][6].toString() + "    Tip:" + marks[i][7] +"<h2> Tip %</h2>" + ((marks[i][7]/marks[i][6])*100)
+                        });
+                        marker.setMap(map);
+
+                        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                            return function() {
+                                infoWindow.setContent(marker.title);
+                                infoWindow.open(map, marker);
+                            }
+                        })(marker, i));
+                    }
+
+                }
+            });
+        }
+
+        function initialize() {
+            var mapOptions = {
+                zoom: 12,
+                center: new google.maps.LatLng(45.5307518, -122.8463202),
+                mapTypeId: google.maps.MapTypeId.MAP
+            };
+
+            map = new google.maps.Map(document.getElementById('map-canvas'),
+                mapOptions);
+        }
+
+
+        $(document).ready(function() {
+            $("#csv-file").change(handleFileSelect);
+            google.maps.event.addDomListener(window, 'load', initialize);
+        });
+    </script>
+</head>
+
+<body>
+    <!-- there goes the map -->
+    <div id="map-canvas"> </div>
+
+    <!-- the draggable input and display controls -->
+    <div id="draggable">
+        <input type="file" id="csv-file" name="files" />
+        <a href="./Complete.csv">Download File, and select it above</a>
+
+    </div>
+</body>
+
+<!--
+https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications
+http://www.html5rocks.com/en/tutorials/file/dndfiles/
+http://blog.teamtreehouse.com/reading-files-using-the-html5-filereader-api
+-->

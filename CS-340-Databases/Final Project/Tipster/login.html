@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <script src="mobile-detect.js"></script>
+
+    <body>
+        <script>
+            var md = new MobileDetect(window.navigator.userAgent);
+            if (md.mobile() != null) {
+                var viewed = document.createElement('meta');
+                viewed.name = "viewport";
+                viewed.content = "width=device-width, initial-scale=1, maximum-scale=1";
+                document.getElementsByTagName('head')[0].appendChild(viewed);
+                document.body.style.backgroundImage = "url(http://i.imgur.com/SshZgNM.jpg?1)"
+            } else {
+                document.body.style.backgroundImage = "url('http://i.imgur.com/OoLriho.jpg')";
+            }
+        </script>
+        <style>
+            form {
+                text-align: center;
+                display: inline-block;
+                margin-top: auto;
+                margin-bottom: auto;
+                width: 100%;
+            }
+
+            body {
+                color: #FF8C00;
+                background-repeat: no-repeat;
+                background-size: cover;
+                text-align: center;
+                font-family: monospace;
+            }
+        </style>
+</head>
+<br> <br> <br>
+<form action="CheckUser.php" method="POST">
+    <h1> Enter your Username and Password </h1> Username: <input type="text" name="Username"> <br> Password: <input type="password" name="Password"> <br>
+    <input type="submit" value="submit"> <br>
+</form>
+Or if you don't have an account <a href="Signup.html"> Click Here! </a>
+</body>
+
+</html>

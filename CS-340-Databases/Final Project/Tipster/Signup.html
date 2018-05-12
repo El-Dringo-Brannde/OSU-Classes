@@ -1,0 +1,52 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<script src="mobile-detect.js"></script>
+<body>
+<script>
+    var md = new MobileDetect(window.navigator.userAgent);
+	if (md.mobile() != null){
+		var viewed = document.createElement('meta');
+		viewed.name = "viewport";
+		viewed.content = "width=device-width, initial-scale=1, maximum-scale=1";
+		document.getElementsByTagName('head')[0].appendChild(viewed);
+		document.body.style.backgroundImage = "url(http://i.imgur.com/SshZgNM.jpg?1)"
+	}
+	else{
+		document.body.style.backgroundImage = "url('http://i.imgur.com/OoLriho.jpg')";
+	}
+ </script> 
+ 
+ <style> 
+    body {
+		background-size: 100%;
+		font-family: monospace;
+		color: #FF8C00;
+	}
+    form {
+      text-align: center;
+      margin-top: 15%;
+      margin-bottom: 25%;
+    }
+    h1 {text-align: center;}
+  </style>
+</head>
+<body>
+  <h1>
+    Let's create an account!
+  </h1>
+  <form action = "adduser.php" method = "post">
+    Username: <input type = "text" name ="Username"> <br>
+    Password: <input type = "password" name = "Password"> <br>
+    Confirm Password: <input type = "password" name = "confirm"> <br>
+    Store Location: <br>
+    Beaverton <input type = "radio" name = "store" value = "Beaverton"> <br>
+    Tigard <input type = "radio" name = "store" value = "Tigard"> <br>
+    Goose Hollow <input type = "radio" name = "store" value = "Goose Hollow"> <br>
+    <input type = "submit" value = "submit" >
+
+  </form>
+</body>
+
+
+</html>
