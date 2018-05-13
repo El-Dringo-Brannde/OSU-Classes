@@ -1,0 +1,35 @@
+partA 
+====================================
+solver.objective: 0.57142857
+Val of x: 1.7142857
+Val of b: 1.8571429
+SOLUTION: y = 1.7142857x + 1.8571429
+
+
+
+partB with Corvallis
+====================================
+solver obj: 14.23554
+Val of x: 8.0214197
+Val of x1/slope: 0.00010694836
+Val of x2: 4.2808907
+Val of x3: 8.1868578
+Val of x4: -0.79063079
+Val of x5: -0.29536021
+
+Best fit line slope and b: (4.0334403880277316e-05, 10.869131808331797)
+
+
+
+partB with SF 
+=================================
+23.178256
+Val of x: 15.114899
+Val of x1/slope: -4.6730411e-06
+Val of x2: -1.6643722
+Val of x3: 2.4138607
+Val of x4: -0.88761774
+Val of x5: -0.53528776
+Best fit line slope and b: (7.2151379710181921e-06, 13.562575584085966)
+
+
