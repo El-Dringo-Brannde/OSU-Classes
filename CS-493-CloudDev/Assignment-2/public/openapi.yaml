@@ -1,0 +1,3109 @@
+openapi: 3.0.0
+info:
+  title: CS 493 - Assignment 2
+  description: 'TODO: Add Description'
+  version: '1.0'
+servers:
+- url: http://example.com
+  variables: {}
+paths:
+  /users:
+    get:
+      tags:
+      - users
+      summary: Paginated users
+      description: Get All users with pagination
+      operationId: PaginatedUsers
+      parameters:
+      - name: limit
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 5
+        example: 5
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+        example: 1
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=1
+                  nextPage: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=3
+                  data:
+                  - name: dringb3
+                    type: admin
+                    id: 6
+                $ref: '#/components/schemas/PaginatedUsers'
+              example:
+                prevPage: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=1
+                nextPage: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=3
+                data:
+                - name: dringb3
+                  type: admin
+                  id: 6
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+      - users
+      summary: User
+      description: 'TODO: Add Description'
+      operationId: User2
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                type: admin
+              $ref: '#/components/schemas/UserRequest'
+            example: '{"owner":"dringb","type":"admin"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  message: Duplicate entry 'dringb4' for key 'name'
+                  code: ER_DUP_ENTRY
+                  errno: 1062
+                  sqlState: 23000
+                  sqlMessage: Duplicate entry 'dringb4' for key 'name'
+                $ref: '#/components/schemas/UserDuplicate'
+              example:
+                message: Duplicate entry 'dringb4' for key 'name'
+                code: ER_DUP_ENTRY
+                errno: 1062
+                sqlState: 23000
+                sqlMessage: Duplicate entry 'dringb4' for key 'name'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /users/name/{OWNER}/owned-businesses:
+    get:
+      tags:
+      - users
+      summary: Owned Businesses
+      description: get all owned businesses by user
+      operationId: OwnedBusinesses
+      parameters:
+      - name: OWNER
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                  - name: Foo23
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    email: santa@gmail.com
+                    businessID: 6
+                  $ref: '#/components/schemas/OwnedBusiness'
+              example:
+              - name: Foo23
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                email: santa@gmail.com
+                businessID: 6
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /businesses/id/{BUSINESS_ID}:
+    get:
+      tags:
+      - businesses
+      summary: Business
+      description: Get a business by the ID
+      operationId: Business
+      parameters:
+      - name: BUSINESS_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                  - name: Foo23
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    email: santa@gmail.com
+                    businessID: 6
+                  $ref: '#/components/schemas/Business'
+              example:
+              - name: Foo23
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                email: santa@gmail.com
+                businessID: 6
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+      - businesses
+      summary: Business
+      description: Delete a business
+      operationId: Business2
+      parameters:
+      - name: owner
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: '{{OWNER}}'
+        example: '{{OWNER}}'
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: BUSINESS_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/Business34'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 0
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: none
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+      - businesses
+      summary: Business
+      description: "Edit information of a business based on ID. \n\n**Note** all data sent through the body is updated in the DB. Send what you must"
+      operationId: Business1
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: BUSINESS_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                name: fart
+                city: Eugene
+                owner: dringb
+              $ref: '#/components/schemas/BusinessRequest'
+            example: '{"name":"fart","city":"Eugene","owner":"dringb"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+                  serverStatus: 2
+                  warningStatus: 0
+                  changedRows: 1
+                $ref: '#/components/schemas/Business20'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 0
+                info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+                serverStatus: 2
+                warningStatus: 0
+                changedRows: 1
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /businesses:
+    get:
+      tags:
+      - businesses
+      summary: Paginated Businesses
+      description: Get all businesses with pagination
+      operationId: PaginatedBusinesses
+      parameters:
+      - name: limit
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+        example: 1
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+        example: 1
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=0
+                  nextPage: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=2
+                  data:
+                  - name: Foo23
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    email: santa@gmail.com
+                    businessID: 6
+                $ref: '#/components/schemas/PaginatedBusinesses'
+              example:
+                prevPage: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=0
+                nextPage: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=2
+                data:
+                - name: Foo23
+                  owner: dringb
+                  address: 12345 wallaby way
+                  city: Salem
+                  state: Oregon
+                  zip: 97302
+                  phone: 123 - 456 - 789
+                  email: santa@gmail.com
+                  businessID: 6
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+      - businesses
+      summary: Business
+      description: 'TODO: Add Description'
+      operationId: Business3
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: https://google.com
+                email: santa@gmail.com
+              $ref: '#/components/schemas/BusinessRequest37'
+            example: '{"name":"Foo","owner":"dringb","address":"12345 wallaby way","city":"Salem","state":"Oregon","zip":97302,"phone":"123 - 456 - 789","category":[],"subCategory":[],"website":"https://google.com","email":"santa@gmail.com"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 6
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/Business34'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 6
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: none
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /reviews:
+    get:
+      tags:
+      - reviews
+      summary: Paginated Business reviews
+      description: Get all business reviews by ID with pagination
+      operationId: PaginatedBusinessReviews
+      parameters:
+      - name: limit
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 3
+        example: 3
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+        example: 1
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=2
+                  nextPage: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=4
+                  data: []
+                $ref: '#/components/schemas/PaginatedBusinessReviewsEmpty'
+              example:
+                prevPage: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=2
+                nextPage: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=4
+                data: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+      - reviews
+      summary: Review
+      description: "Create a business review \n\n** Note ** A user can only make one review per business"
+      operationId: Review1
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                business: foo23
+                stars: 5
+                cost: 5
+                message: Foo
+              $ref: '#/components/schemas/ReviewRequest41'
+            example: '{"owner":"dringb","business":"foo23","stars":5,"cost":5,"message":"Foo"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 11
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/Review33'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 11
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: none
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /reviews/{REVIEW_ID}:
+    get:
+      tags:
+      - reviews
+      summary: Specific Review
+      description: Get a specific review by businessid and reviewID
+      operationId: SpecificReview
+      parameters:
+      - name: REVIEW_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: []
+              example: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+      - reviews
+      summary: Review
+      description: Delete a review by ID
+      operationId: Review
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: REVIEW_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+              $ref: '#/components/schemas/ReviewRequest'
+            example: '{"owner":"dringb"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/Review33'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 0
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /photos:
+    get:
+      tags:
+      - photos
+      summary: Paginated Business photos
+      description: Get all business photos by ID with pagination
+      operationId: PaginatedBusinessPhotos
+      parameters:
+      - name: limit
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 2
+        example: 2
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 4
+        example: 4
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=3
+                  nextPage: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=5
+                  data: []
+                $ref: '#/components/schemas/PaginatedBusinessPhotosEmpty'
+              example:
+                prevPage: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=3
+                nextPage: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=5
+                data: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+      - photos
+      summary: Photos
+      description: Create a business photo
+      operationId: Photos1
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                business: foo
+                image: https://www.bing.com/
+                caption: some caption
+              $ref: '#/components/schemas/PhotosRequest'
+            example: '{"owner":"dringb","business":"foo","image":"https://www.bing.com/","caption":"some caption"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 7
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/Photos'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 7
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: none
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /photos/{PHOTO_ID}:
+    get:
+      tags:
+      - photos
+      summary: Specific Photo
+      description: Get specific photos posted by ID
+      operationId: SpecificPhoto
+      parameters:
+      - name: PHOTO_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                  - photoID: 5
+                    owner: dringb
+                    business: foo
+                    caption: fart2
+                    image: https://www.bing.com/
+                  $ref: '#/components/schemas/SpecificPhoto'
+              example:
+              - photoID: 5
+                owner: dringb
+                business: foo
+                caption: fart2
+                image: https://www.bing.com/
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+      - photos
+      summary: Photo
+      description: Delete a photo by ID
+      operationId: Photo
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: PHOTO_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+              $ref: '#/components/schemas/PhotoRequest'
+            example: '{"owner":"dringb"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/Photo31'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 0
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+      - photos
+      summary: Business Photo
+      description: Edit business photo by BusinessID and PhotoID
+      operationId: BusinessPhoto
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: PHOTO_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                caption: fart3
+                owner: dringb
+              $ref: '#/components/schemas/BusinessPhotorequest'
+            example: '{"caption":"fart3","owner":"dringb"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+                  serverStatus: 2
+                  warningStatus: 0
+                  changedRows: 1
+                $ref: '#/components/schemas/BusinessPhoto'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 0
+                info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+                serverStatus: 2
+                warningStatus: 0
+                changedRows: 1
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /users/name/{OWNER}/reviews:
+    get:
+      tags:
+      - users
+      summary: Paginated User Reviews
+      description: Get all reviews posted by the user with pagination
+      operationId: PaginatedUserReviews
+      parameters:
+      - name: limit
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 3
+        example: 3
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+        example: 1
+      - name: OWNER
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=2
+                  nextPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=4
+                  data: []
+                $ref: '#/components/schemas/PaginatedUserReviewsEmpty'
+              example:
+                prevPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=2
+                nextPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=4
+                data: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /users/name/{OWNER}/photos:
+    get:
+      tags:
+      - users
+      summary: Paginated Users Photos
+      description: Get photos posted by the user with pagination
+      operationId: PaginatedUsersPhotos
+      parameters:
+      - name: limit
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 3
+        example: 3
+      - name: page
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+          example: 1
+        example: 1
+      - name: OWNER
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=0
+                  nextPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=2
+                  data:
+                  - photoID: 2
+                    owner: dringb
+                    business: foo
+                    caption: fart
+                    image: https://www.bing.com/
+                  - photoID: 3
+                    owner: dringb
+                    business: foo
+                    caption: some caption
+                    image: https://www.bing.com/
+                  - photoID: 4
+                    owner: dringb
+                    business: foo
+                    caption: some caption
+                    image: https://www.bing.com/
+                $ref: '#/components/schemas/PaginatedUsersPhotos'
+              example:
+                prevPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=0
+                nextPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=2
+                data:
+                - photoID: 2
+                  owner: dringb
+                  business: foo
+                  caption: fart
+                  image: https://www.bing.com/
+                - photoID: 3
+                  owner: dringb
+                  business: foo
+                  caption: some caption
+                  image: https://www.bing.com/
+                - photoID: 4
+                  owner: dringb
+                  business: foo
+                  caption: some caption
+                  image: https://www.bing.com/
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /categories:
+    get:
+      tags:
+      - categories
+      summary: Categories
+      description: Get all business categories
+      operationId: Categories
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                  - categoryID: 1
+                    name: fart
+                    owner: ''
+                  $ref: '#/components/schemas/Category'
+              example:
+              - categoryID: 1
+                name: fart
+                owner: ''
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+      - categories
+      summary: Category
+      description: Add a category for businesses to use
+      operationId: Category2
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                category: Restaurant
+                owner: dringb
+              $ref: '#/components/schemas/CategoryRequest'
+            example: '{"category":"Restaurant","owner":"dringb"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 4
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/Category40'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 4
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+        400:
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: none
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /sub-categories:
+    get:
+      tags:
+      - sub-categories
+      summary: Sub Categories
+      description: Get all business subcategories based on the category
+      operationId: SubCategories
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                  - id: 3
+                    name: Mexican
+                    owner: dringb
+                  $ref: '#/components/schemas/SubCategory'
+              example:
+              - id: 3
+                name: Mexican
+                owner: dringb
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+      - sub-categories
+      summary: Sub Category
+      description: Get all sub categories for a given category
+      operationId: SubCategory1
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                subCategory: Mexican
+              $ref: '#/components/schemas/SubCategoryrequest'
+            example: '{"owner":"dringb","subCategory":"Mexican"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 4
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/SubCategory36'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 4
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /reviews/{BUSINESS_ID}:
+    patch:
+      tags:
+      - reviews
+      summary: Business Review
+      description: Edit a business Review by reviewID and businessID
+      operationId: BusinessReview
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: BUSINESS_ID
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                cost: 2
+                message: Something Else2
+                owner: dringb
+              $ref: '#/components/schemas/BusinessReviewrequest'
+            example: '{"cost":2,"message":"Something Else2","owner":"dringb"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+                  serverStatus: 2
+                  warningStatus: 0
+                  changedRows: 1
+                $ref: '#/components/schemas/BusinessReview'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 0
+                info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+                serverStatus: 2
+                warningStatus: 0
+                changedRows: 1
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /categories/{CATEGORY_NAME}:
+    delete:
+      tags:
+      - categories
+      summary: category
+      description: >-
+        Delete a category provided the admin name
+
+
+        ** Note ** That the key for access is sent via query string instead of in the body
+      operationId: Category1
+      parameters:
+      - name: owner
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: '{{OWNER}}'
+        example: '{{OWNER}}'
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: CATEGORY_NAME
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 0
+                  insertId: 0
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/CategoryNoChange35'
+              example:
+                fieldCount: 0
+                affectedRows: 0
+                insertId: 0
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+      - categories
+      summary: Category
+      description: "Allows editing of the category name. \n\n**Note** That you can't change the sub categories of a category, to do that, it'll have to be removed and added back from the respective routes"
+      operationId: Category
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: CATEGORY_NAME
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                category: fart
+                owner: dringb
+              $ref: '#/components/schemas/CategoryRequest'
+            example: '{"category":"fart","owner":"dringb"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 0
+                  insertId: 0
+                  info: 'Rows matched: 0  Changed: 0  Warnings: 0'
+                  serverStatus: 2
+                  warningStatus: 0
+                  changedRows: 0
+                $ref: '#/components/schemas/CategoryNoChange'
+              example:
+                fieldCount: 0
+                affectedRows: 0
+                insertId: 0
+                info: 'Rows matched: 0  Changed: 0  Warnings: 0'
+                serverStatus: 2
+                warningStatus: 0
+                changedRows: 0
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /users/name/{OWNER}:
+    delete:
+      tags:
+      - users
+      summary: User
+      description: 'TODO: Add Description'
+      operationId: User1
+      parameters:
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: OWNER
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                type: admin
+              $ref: '#/components/schemas/UserRequest'
+            example: '{"owner":"dringb","type":"admin"}'
+        required: true
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  Result:
+                    fieldCount: 0
+                    affectedRows: 1
+                    insertId: 0
+                    info: ''
+                    serverStatus: 2
+                    warningStatus: 0
+                $ref: '#/components/schemas/User28'
+              example:
+                Result:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /sub-categories/{SUB_CATEGORY_NAME}:
+    delete:
+      tags:
+      - sub-categories
+      summary: sub category
+      description: Delete a subcategory based off of the name, along with the query string admin name value
+      operationId: SubCategory
+      parameters:
+      - name: owner
+        in: query
+        description: ''
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: '{{OWNER}}'
+        example: '{{OWNER}}'
+      - name: Content-Type
+        in: header
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+          example: application/json
+        example: application/json
+      - name: SUB_CATEGORY_NAME
+        in: path
+        description: ''
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  fieldCount: 0
+                  affectedRows: 1
+                  insertId: 0
+                  info: ''
+                  serverStatus: 2
+                  warningStatus: 0
+                $ref: '#/components/schemas/SubCategory36'
+              example:
+                fieldCount: 0
+                affectedRows: 1
+                insertId: 0
+                info: ''
+                serverStatus: 2
+                warningStatus: 0
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+components:
+  schemas:
+    User:
+      title: User
+      required:
+      - name
+      - type
+      - id
+      type: object
+      properties:
+        name:
+          type: string
+          example: dringb
+        type:
+          type: string
+          example: admin
+        id:
+          type: integer
+          format: int32
+          example: 2
+      example:
+        name: dringb
+        type: admin
+        id: 2
+    PaginatedUsers:
+      title: Paginated users
+      required:
+      - prevPage
+      - nextPage
+      - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=1
+        nextPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=3
+        data:
+          type: array
+          items:
+            example:
+            - name: dringb3
+              type: admin
+              id: 6
+            $ref: '#/components/schemas/Datum'
+          description: ''
+      example:
+        prevPage: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=1
+        nextPage: https://cs493-assignment1.herokuapp.com/users/?limit=3&page=3
+        data:
+        - name: dringb3
+          type: admin
+          id: 6
+    Datum:
+      title: Datum
+      required:
+      - name
+      - type
+      - id
+      type: object
+      properties:
+        name:
+          type: string
+          example: dringb3
+        type:
+          type: string
+          example: admin
+        id:
+          type: integer
+          format: int32
+          example: 6
+      example:
+        name: dringb3
+        type: admin
+        id: 6
+    OwnedBusiness:
+      title: Owned Business
+      required:
+      - name
+      - owner
+      - address
+      - city
+      - state
+      - zip
+      - phone
+      - email
+      - businessID
+      type: object
+      properties:
+        name:
+          type: string
+          example: Foo23
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: string
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        email:
+          type: string
+          example: santa@gmail.com
+        businessID:
+          type: integer
+          format: int32
+          example: 6
+      example:
+        name: Foo23
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        email: santa@gmail.com
+        businessID: 6
+    Business:
+      title: Business
+      required:
+      - name
+      - owner
+      - address
+      - city
+      - state
+      - zip
+      - phone
+      - email
+      - businessID
+      type: object
+      properties:
+        name:
+          type: string
+          example: Foo23
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: string
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        email:
+          type: string
+          example: santa@gmail.com
+        businessID:
+          type: integer
+          format: int32
+          example: 6
+      example:
+        name: Foo23
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        email: santa@gmail.com
+        businessID: 6
+    PaginatedBusinesses:
+      title: Paginated Businesses
+      required:
+      - prevPage
+      - nextPage
+      - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=0
+        nextPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=2
+        data:
+          type: array
+          items:
+            example:
+            - name: Foo23
+              owner: dringb
+              address: 12345 wallaby way
+              city: Salem
+              state: Oregon
+              zip: 97302
+              phone: 123 - 456 - 789
+              email: santa@gmail.com
+              businessID: 6
+            $ref: '#/components/schemas/Datum7'
+          description: ''
+      example:
+        prevPage: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=0
+        nextPage: https://cs493-assignment1.herokuapp.com/businesses/?limit=1&page=2
+        data:
+        - name: Foo23
+          owner: dringb
+          address: 12345 wallaby way
+          city: Salem
+          state: Oregon
+          zip: 97302
+          phone: 123 - 456 - 789
+          email: santa@gmail.com
+          businessID: 6
+    Datum7:
+      title: Datum7
+      required:
+      - name
+      - owner
+      - address
+      - city
+      - state
+      - zip
+      - phone
+      - email
+      - businessID
+      type: object
+      properties:
+        name:
+          type: string
+          example: Foo23
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: string
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        email:
+          type: string
+          example: santa@gmail.com
+        businessID:
+          type: integer
+          format: int32
+          example: 6
+      example:
+        name: Foo23
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        email: santa@gmail.com
+        businessID: 6
+    Review:
+      title: Review
+      required:
+      - reviewID
+      - owner
+      - business
+      - star
+      - dollar
+      - message
+      type: object
+      properties:
+        reviewID:
+          type: integer
+          format: int32
+          example: 7
+        owner:
+          type: string
+          example: dringb
+        business:
+          type: string
+          example: foo
+        star:
+          type: integer
+          format: int32
+          example: 5
+        dollar:
+          type: integer
+          format: int32
+          example: 2
+        message:
+          type: string
+          example: Something Else
+      example:
+        reviewID: 7
+        owner: dringb
+        business: foo
+        star: 5
+        dollar: 2
+        message: Something Else
+    PaginatedBusinessReviewsEmpty:
+      title: Paginated Business reviews Empty
+      required:
+      - prevPage
+      - nextPage
+      - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=2
+        nextPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=4
+        data:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+      example:
+        prevPage: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=2
+        nextPage: https://cs493-assignment1.herokuapp.com/reviews/?limit=3&page=4
+        data: []
+    Photo:
+      title: Photo
+      required:
+      - photoID
+      - owner
+      - business
+      - caption
+      - image
+      type: object
+      properties:
+        photoID:
+          type: integer
+          format: int32
+          example: 2
+        owner:
+          type: string
+          example: dringb
+        business:
+          type: string
+          example: foo
+        caption:
+          type: string
+          example: fart
+        image:
+          type: string
+          example: https://www.bing.com/
+      example:
+        photoID: 2
+        owner: dringb
+        business: foo
+        caption: fart
+        image: https://www.bing.com/
+    PaginatedBusinessPhotosEmpty:
+      title: Paginated Business photos Empty
+      required:
+      - prevPage
+      - nextPage
+      - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=3
+        nextPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=5
+        data:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+      example:
+        prevPage: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=3
+        nextPage: https://cs493-assignment1.herokuapp.com/photos/?limit=2&page=5
+        data: []
+    SpecificPhoto:
+      title: Specific Photo
+      required:
+      - photoID
+      - owner
+      - business
+      - caption
+      - image
+      type: object
+      properties:
+        photoID:
+          type: integer
+          format: int32
+          example: 5
+        owner:
+          type: string
+          example: dringb
+        business:
+          type: string
+          example: foo
+        caption:
+          type: string
+          example: fart2
+        image:
+          type: string
+          example: https://www.bing.com/
+      example:
+        photoID: 5
+        owner: dringb
+        business: foo
+        caption: fart2
+        image: https://www.bing.com/
+    PaginatedUserReviewsEmpty:
+      title: Paginated User Reviews Empty
+      required:
+      - prevPage
+      - nextPage
+      - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=2
+        nextPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=4
+        data:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+      example:
+        prevPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=2
+        nextPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=3&page=4
+        data: []
+    UsersPhoto:
+      title: Users Photo
+      required:
+      - photoID
+      - owner
+      - business
+      - caption
+      - image
+      type: object
+      properties:
+        photoID:
+          type: integer
+          format: int32
+          example: 2
+        owner:
+          type: string
+          example: dringb
+        business:
+          type: string
+          example: foo
+        caption:
+          type: string
+          example: fart
+        image:
+          type: string
+          example: https://www.bing.com/
+      example:
+        photoID: 2
+        owner: dringb
+        business: foo
+        caption: fart
+        image: https://www.bing.com/
+    PaginatedUsersPhotos:
+      title: Paginated Users Photos
+      required:
+      - prevPage
+      - nextPage
+      - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=0
+        nextPage:
+          type: string
+          example: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=2
+        data:
+          type: array
+          items:
+            example:
+            - photoID: 2
+              owner: dringb
+              business: foo
+              caption: fart
+              image: https://www.bing.com/
+            - photoID: 3
+              owner: dringb
+              business: foo
+              caption: some caption
+              image: https://www.bing.com/
+            - photoID: 4
+              owner: dringb
+              business: foo
+              caption: some caption
+              image: https://www.bing.com/
+            $ref: '#/components/schemas/Datum16'
+          description: ''
+      example:
+        prevPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=0
+        nextPage: https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=3&page=2
+        data:
+        - photoID: 2
+          owner: dringb
+          business: foo
+          caption: fart
+          image: https://www.bing.com/
+        - photoID: 3
+          owner: dringb
+          business: foo
+          caption: some caption
+          image: https://www.bing.com/
+        - photoID: 4
+          owner: dringb
+          business: foo
+          caption: some caption
+          image: https://www.bing.com/
+    Datum16:
+      title: Datum16
+      required:
+      - photoID
+      - owner
+      - business
+      - caption
+      - image
+      type: object
+      properties:
+        photoID:
+          type: integer
+          format: int32
+          example: 2
+        owner:
+          type: string
+          example: dringb
+        business:
+          type: string
+          example: foo
+        caption:
+          type: string
+          example: fart
+        image:
+          type: string
+          example: https://www.bing.com/
+      example:
+        photoID: 2
+        owner: dringb
+        business: foo
+        caption: fart
+        image: https://www.bing.com/
+    Category:
+      title: Category
+      required:
+      - categoryID
+      - name
+      - owner
+      type: object
+      properties:
+        categoryID:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: fart
+        owner:
+          type: string
+      example:
+        categoryID: 1
+        name: fart
+        owner: ''
+    SubCategory:
+      title: Sub Category
+      required:
+      - id
+      - name
+      - owner
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 3
+        name:
+          type: string
+          example: Mexican
+        owner:
+          type: string
+          example: dringb
+      example:
+        id: 3
+        name: Mexican
+        owner: dringb
+    BusinessRequest:
+      title: BusinessRequest
+      required:
+      - name
+      - city
+      - owner
+      type: object
+      properties:
+        name:
+          type: string
+          example: fart
+        city:
+          type: string
+          example: Eugene
+        owner:
+          type: string
+          example: dringb
+      example:
+        name: fart
+        city: Eugene
+        owner: dringb
+    Business20:
+      title: Business20
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      - changedRows
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+          example: 'Rows matched: 1  Changed: 1  Warnings: 0'
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+        changedRows:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+        serverStatus: 2
+        warningStatus: 0
+        changedRows: 1
+    BusinessReviewrequest:
+      title: Business ReviewRequest
+      required:
+      - cost
+      - message
+      - owner
+      type: object
+      properties:
+        cost:
+          type: integer
+          format: int32
+          example: 2
+        message:
+          type: string
+          example: Something Else2
+        owner:
+          type: string
+          example: dringb
+      example:
+        cost: 2
+        message: Something Else2
+        owner: dringb
+    BusinessReview:
+      title: Business Review
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      - changedRows
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+          example: 'Rows matched: 1  Changed: 1  Warnings: 0'
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+        changedRows:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+        serverStatus: 2
+        warningStatus: 0
+        changedRows: 1
+    BusinessPhotorequest:
+      title: Business PhotoRequest
+      required:
+      - caption
+      - owner
+      type: object
+      properties:
+        caption:
+          type: string
+          example: fart3
+        owner:
+          type: string
+          example: dringb
+      example:
+        caption: fart3
+        owner: dringb
+    BusinessPhoto:
+      title: Business Photo
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      - changedRows
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+          example: 'Rows matched: 1  Changed: 1  Warnings: 0'
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+        changedRows:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: 'Rows matched: 1  Changed: 1  Warnings: 0'
+        serverStatus: 2
+        warningStatus: 0
+        changedRows: 1
+    CategoryRequest:
+      title: CategoryRequest
+      required:
+      - category
+      - owner
+      type: object
+      properties:
+        category:
+          type: string
+          example: fart
+        owner:
+          type: string
+          example: dringb
+      example:
+        category: fart
+        owner: dringb
+    CategoryNoChange:
+      title: Category No change
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      - changedRows
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 0
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+          example: 'Rows matched: 0  Changed: 0  Warnings: 0'
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+        changedRows:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 0
+        insertId: 0
+        info: 'Rows matched: 0  Changed: 0  Warnings: 0'
+        serverStatus: 2
+        warningStatus: 0
+        changedRows: 0
+    UserRequest:
+      title: UserRequest
+      required:
+      - owner
+      - type
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        type:
+          type: string
+          example: admin
+      example:
+        owner: dringb
+        type: admin
+    User28:
+      title: User28
+      required:
+      - Result
+      type: object
+      properties:
+        Result:
+          example:
+            fieldCount: 0
+            affectedRows: 1
+            insertId: 0
+            info: ''
+            serverStatus: 2
+            warningStatus: 0
+          $ref: '#/components/schemas/Result'
+      example:
+        Result:
+          fieldCount: 0
+          affectedRows: 1
+          insertId: 0
+          info: ''
+          serverStatus: 2
+          warningStatus: 0
+    Result:
+      title: Result
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: ''
+        serverStatus: 2
+        warningStatus: 0
+    PhotoRequest:
+      title: PhotoRequest
+      required:
+      - owner
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+      example:
+        owner: dringb
+    Photo31:
+      title: Photo31
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: ''
+        serverStatus: 2
+        warningStatus: 0
+    ReviewRequest:
+      title: ReviewRequest
+      required:
+      - owner
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+      example:
+        owner: dringb
+    Review33:
+      title: Review33
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: ''
+        serverStatus: 2
+        warningStatus: 0
+    Business34:
+      title: Business34
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: ''
+        serverStatus: 2
+        warningStatus: 0
+    CategoryNoChange35:
+      title: category no change35
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 0
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 0
+        insertId: 0
+        info: ''
+        serverStatus: 2
+        warningStatus: 0
+    SubCategory36:
+      title: sub category36
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 0
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 0
+        info: ''
+        serverStatus: 2
+        warningStatus: 0
+    BusinessRequest37:
+      title: BusinessRequest37
+      required:
+      - name
+      - owner
+      - address
+      - city
+      - state
+      - zip
+      - phone
+      - category
+      - subCategory
+      - website
+      - email
+      type: object
+      properties:
+        name:
+          type: string
+          example: Foo
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: integer
+          format: int32
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        category:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        subCategory:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        website:
+          type: string
+          example: https://google.com
+        email:
+          type: string
+          example: santa@gmail.com
+      example:
+        name: Foo
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        category: []
+        subCategory: []
+        website: https://google.com
+        email: santa@gmail.com
+    Category40:
+      title: Category40
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 4
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 4
+        info: ''
+        serverStatus: 2
+        warningStatus: 0
+    ReviewRequest41:
+      title: ReviewRequest41
+      required:
+      - owner
+      - business
+      - stars
+      - cost
+      - message
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        business:
+          type: string
+          example: foo23
+        stars:
+          type: integer
+          format: int32
+          example: 5
+        cost:
+          type: integer
+          format: int32
+          example: 5
+        message:
+          type: string
+          example: Foo
+      example:
+        owner: dringb
+        business: foo23
+        stars: 5
+        cost: 5
+        message: Foo
+    SubCategoryrequest:
+      title: Sub CategoryRequest
+      required:
+      - owner
+      - subCategory
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        subCategory:
+          type: string
+          example: Mexican
+      example:
+        owner: dringb
+        subCategory: Mexican
+    UserDuplicate:
+      title: User duplicate
+      required:
+      - message
+      - code
+      - errno
+      - sqlState
+      - sqlMessage
+      type: object
+      properties:
+        message:
+          type: string
+          example: Duplicate entry 'dringb4' for key 'name'
+        code:
+          type: string
+          example: ER_DUP_ENTRY
+        errno:
+          type: integer
+          format: int32
+          example: 1062
+        sqlState:
+          type: string
+          example: 23000
+        sqlMessage:
+          type: string
+          example: Duplicate entry 'dringb4' for key 'name'
+      example:
+        message: Duplicate entry 'dringb4' for key 'name'
+        code: ER_DUP_ENTRY
+        errno: 1062
+        sqlState: 23000
+        sqlMessage: Duplicate entry 'dringb4' for key 'name'
+    PhotosRequest:
+      title: PhotosRequest
+      required:
+      - owner
+      - business
+      - image
+      - caption
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        business:
+          type: string
+          example: foo
+        image:
+          type: string
+          example: https://www.bing.com/
+        caption:
+          type: string
+          example: some caption
+      example:
+        owner: dringb
+        business: foo
+        image: https://www.bing.com/
+        caption: some caption
+    Photos:
+      title: Photos
+      required:
+      - fieldCount
+      - affectedRows
+      - insertId
+      - info
+      - serverStatus
+      - warningStatus
+      type: object
+      properties:
+        fieldCount:
+          type: integer
+          format: int32
+          example: 0
+        affectedRows:
+          type: integer
+          format: int32
+          example: 1
+        insertId:
+          type: integer
+          format: int32
+          example: 7
+        info:
+          type: string
+        serverStatus:
+          type: integer
+          format: int32
+          example: 2
+        warningStatus:
+          type: integer
+          format: int32
+          example: 0
+      example:
+        fieldCount: 0
+        affectedRows: 1
+        insertId: 7
+        info: ''
+        serverStatus: 2
+        warningStatus: 0

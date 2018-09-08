@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  dbserver:
+    image: mysql:5.6
+    restart: always
+    container_name: dbserver
+    environment:
+      MYSQL_ROOT_PASSWORD: abcde
+      MYSQL_USER: root
+      MYSQL_DATABASE: Cloud
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.9
+        ipv6_address: 2001:3984:3990::10
+    volumes: 
+      - ~/Github/assignment-2-El-Dringo-Brannde/init:/docker-entrypoint-initdb.d
+      - persistent_mysql_data:/var/lib/mysql
+      
+  webserver:
+    image: yelp-server
+    depends_on: 
+      - dbserver
+    ports:
+      - 1234:3000
+    links:
+      - dbserver
+    environment:
+      NODE_ENV: 'prod'
+      MYSQL_PASSWORD: abcde
+      MYSQL_USER: 'root'
+      MYSQL_DB: 'Cloud'
+      MYSQL_PORT: '3306'
+      DB_HOST: '172.16.238.9'
+    networks:
+      app_net:
+        ipv4_address: 172.16.238.10
+        ipv6_address: 2001:3984:3989::10
+ 
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.238.0/24
+      - subnet: 2001:3984:3989::/64
+  
+volumes: 
+  persistent_mysql_data:
+    driver: local

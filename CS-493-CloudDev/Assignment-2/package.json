@@ -1,0 +1,37 @@
+{
+   "name": "assignment-2-el-dringo-brannde",
+   "version": "1.0.0",
+   "description": "**Assignment due at 11:59pm on Monday 5/7/2018**",
+   "main": "index.js",
+   "engines": {
+      "node": "8.11.*"
+   },
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "dev": "nodemon index.js -p 3000",
+      "start": "node index.js -p 3000",
+      "start:dc": "docker-compose up"
+   },
+   "repository": {
+      "type": "git",
+      "url": "git+https://github.com/OSU-CS493-Sp18/assignment-2-El-Dringo-Brannde.git"
+   },
+   "author": "Brandon Dring",
+   "license": "ISC",
+   "bugs": {
+      "url": "https://github.com/OSU-CS493-Sp18/assignment-2-El-Dringo-Brannde/issues"
+   },
+   "homepage": "https://github.com/OSU-CS493-Sp18/assignment-2-El-Dringo-Brannde#readme",
+   "dependencies": {
+      "boom": "^7.2.0",
+      "command-line-args": "^5.0.2",
+      "express": "^4.16.3",
+      "express-validation": "^1.0.2",
+      "joi": "^13.1.2",
+      "mysql2": "^1.5.3",
+      "uuid": "^3.2.1"
+   },
+   "devDependencies": {
+      "nodemon": "^1.17.3"
+   }
+}
