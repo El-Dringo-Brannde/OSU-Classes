@@ -1,0 +1,8 @@
+{ 
+    "_id" : ObjectId("5ae9fbafc84acc49851780cd"), 
+    "category" : "Restaurant", 
+    "owner" : "dringb", 
+    "subCategories" : [
+
+    ]
+}

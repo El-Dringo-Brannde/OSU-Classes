@@ -1,0 +1,65 @@
+version: '3'
+
+services:
+  redis: 
+    image: redis
+    restart: always 
+    container_name: redis_server
+    networks:
+      app_net: 
+        ipv4_address: 172.16.231.8
+    volumes: 
+        - persistant_redis_data
+
+  dbserver:
+    image: mongo
+    restart: always
+    container_name: dbserver
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456789
+    networks:
+      app_net:
+        ipv4_address: 172.16.231.9
+        ipv6_address: 2001:3984:3990::10
+    volumes:
+      - ~/Github/assignment-3-El-Dringo-Brannde/init:/docker-entrypoint-initdb.d
+      - persistent_mongo_data:/data/db
+
+  webserver:
+    image: yelp-server
+    restart: always
+    depends_on:
+      - dbserver
+      - redis
+    ports:
+      - 2345:2345
+    links:
+      - dbserver
+      - redis
+    environment:
+      NODE_ENV: 'prod'
+      MONGO_PASSWORD: 123456789
+      MONGO_USER: 'root'
+      MONGO_HOST: '172.16.231.9'
+      PORT: 2345
+    networks:
+      app_net:
+        ipv4_address: 172.16.231.10
+        ipv6_address: 2001:3984:3989::10
+
+
+networks:
+  app_net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.16.231.0/24
+      - subnet: 2001:3984:3989::/64
+
+volumes:
+  persistent_mongo_data:
+    driver: local
+  persistant_redis_data: 
+    driver: local

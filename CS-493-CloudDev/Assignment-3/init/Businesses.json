@@ -1,0 +1,92 @@
+{ 
+    "_id" : ObjectId("5ade966b76734b3516549477"), 
+    "name" : "Foo", 
+    "owner" : "dringb", 
+    "address" : "12345 wallaby way", 
+    "city" : "Salem", 
+    "state" : "Oregon", 
+    "zip" : NumberInt(97302), 
+    "phone" : "123 - 456 - 789", 
+    "category" : [
+        "Restaurant"
+    ], 
+    "subCategory" : [
+        "Mexican"
+    ], 
+    "website" : "https://google.com", 
+    "email" : "santa@gmail.com", 
+    "reviews" : [
+
+    ], 
+    "photos" : [
+
+    ], 
+    "uuid" : "c7bc7dfa-930c-447d-b9bb-5dd4c3918374"
+}
+{ 
+    "_id" : ObjectId("5ae9fb56c84acc49851780cc"), 
+    "name" : "Foo", 
+    "owner" : "dringb", 
+    "address" : "12345 wallaby way", 
+    "city" : "Salem", 
+    "state" : "Oregon", 
+    "zip" : NumberInt(97302), 
+    "phone" : "123 - 456 - 789", 
+    "category" : [
+
+    ], 
+    "subCategory" : [
+
+    ], 
+    "website" : "https://google.com", 
+    "email" : "santa@gmail.com", 
+    "reviews" : [
+        {
+            "owner" : "dringb", 
+            "stars" : NumberInt(5), 
+            "cost" : NumberInt(0), 
+            "message" : "Something Else", 
+            "uuid" : "9d102893-ee7c-4b54-a2a3-d37b3d934217"
+        }
+    ], 
+    "photos" : [
+
+    ], 
+    "uuid" : "625a6057-8402-4388-a248-e53100c04b03"
+}
+{ 
+    "_id" : ObjectId("5b0742da957162e311780911"), 
+    "name" : "Foo", 
+    "owner" : "dringb", 
+    "address" : "12345 wallaby way", 
+    "city" : "Salem", 
+    "state" : "Oregon", 
+    "zip" : NumberInt(97302), 
+    "phone" : "123 - 456 - 789", 
+    "category" : [
+
+    ], 
+    "subCategory" : [
+
+    ], 
+    "website" : "https://google.com", 
+    "email" : "santa@gmail.com", 
+    "reviews" : [
+        {
+            "owner" : "dringb", 
+            "stars" : NumberInt(5), 
+            "cost" : NumberInt(5), 
+            "message" : "Foo", 
+            "uuid" : "4c322562-4ddb-49e6-9ebb-252aae5c8633"
+        }
+    ], 
+    "photos" : [
+        {
+            "owner" : "dringb", 
+            "image" : "https://www.bing.com/", 
+            "caption" : "some caption", 
+            "uuid" : "ce65a35d-8b34-460b-82a2-1f43316022a9"
+        }
+    ], 
+    "uuid" : "34e3b49d-2fd4-4262-99c7-63128d9b2a1f"
+}

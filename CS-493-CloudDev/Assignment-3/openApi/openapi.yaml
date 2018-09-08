@@ -1,0 +1,4818 @@
+openapi: 3.0.0
+info:
+  title: CS 493 - Assignment 1
+  description: |-
+    # Introduction
+    Implments or attempts a basic restful server for assignment 1 in my CS 493 Cloud dev class
+
+    # Overview
+    Server is deployed in an actual cloud on heroku which is listed under the server dropdown below
+
+    # Authentication
+    No authentication, so be nice
+
+    # Error Codes
+    Errors come from the boom library provided by HapiJS, they are under the models 
+
+    # Rate limit
+    Probably, don't blow it. 
+  version: '1.0'
+servers:
+  - url: 'http://localhost:3000'
+  - url: 'https://cs493-assignment1.herokuapp.com'
+    variables: {}
+paths:
+  '/businesses/id/{BusinessID}':
+    get:
+      tags:
+        - Businesses
+      summary: Business
+      description: Get a business by the ID
+      operationId: Business
+      parameters:
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: []
+              example: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Businesses
+      summary: Business
+      description: Delete a business
+      operationId: Business2
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+              $ref: '#/components/schemas/BusinessRequest56'
+            example: '{"owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+        - Businesses
+      summary: Business
+      description: >-
+        Edit information of a business based on ID. 
+
+
+        **Note** all data sent through the body is updated in the DB. Send what
+        you must
+      operationId: Business1
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                name: fart2
+                owner: dringb
+              $ref: '#/components/schemas/BusinessRequest'
+            example: '{"name":"fart2","owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  _id: 5adbb602a941b26995553641
+                  name: fart
+                  owner: dringb
+                  address: 12345 wallaby way
+                  city: Salem
+                  state: Oregon
+                  zip: 97302
+                  phone: 123 - 456 - 789
+                  category: []
+                  subCategory: []
+                  website: 'https://google.com'
+                  email: santa@gmail.com
+                  reviews: []
+                  photos: []
+                $ref: '#/components/schemas/EditBusiness'
+              example:
+                _id: 5adbb602a941b26995553641
+                name: fart
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: 'https://google.com'
+                email: santa@gmail.com
+                reviews: []
+                photos: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /businesses:
+    get:
+      tags:
+        - Businesses
+      summary: Paginated Businesses
+      description: Get all businesses with pagination
+      operationId: PaginatedBusinesses
+      parameters:
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+          example: 1
+        - name: page
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 2
+          example: 2
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: >-
+                    https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=0
+                  nextPage: >-
+                    https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=2
+                  data:
+                    - _id: 5ade4b6f62136427a0515850
+                      name: Foo
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews:
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: a1de1086-d2fd-402b-bb08-02bff70e189f
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 448d26aa-db70-484b-91b0-8d8dae3092e1
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: af8e35ec-33ac-4552-a782-7594129b26e9
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 3073bc91-20ab-43dc-8ec1-30272d08cc86
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 5227c5f9-e69d-42bc-b9e7-366062cc2344
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 83b6e711-c193-4e3c-819f-e1820306e5e3
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 57ca6e70-e75a-439a-af92-87b40a84d809
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 24839c6f-84a3-41f7-9334-1a4420db877d
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 1a699baa-64bf-4b6b-866f-cba4f4393a86
+                        - owner: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+                      photos:
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 0a496c98-0782-436b-a115-ebe51a843a08
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 58469f78-6a3f-4163-af35-012dca3ae88e
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 6a10e594-8481-4a90-958f-d90899bb2ea8
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 2fc59c32-27cf-4e0b-8676-5390396c9524
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 2119fc8a-924e-4055-881a-cc8567fe9099
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+                      uuid: 0c9f2a1e-5c78-41ce-8d8b-009497ceb94e
+                    - _id: 5ade522eac211b3b5d4bd1ce
+                      name: Foo
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews: []
+                      photos: []
+                      uuid: 257779fe-14ea-4a79-8247-0914986bce8b
+                    - _id: 5ade522fac211b3b5d4bd1cf
+                      name: Foo
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews: []
+                      photos: []
+                      uuid: 5f3431de-baad-4c88-b218-c05384a2fb65
+                    - _id: 5ade5230ac211b3b5d4bd1d0
+                      name: Foo
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews: []
+                      photos: []
+                      uuid: 591db462-a0b6-4ae8-ada0-f92206ad9764
+                    - _id: 5ade5231ac211b3b5d4bd1d1
+                      name: Foo
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews: []
+                      photos: []
+                      uuid: 9a93b848-2077-40e8-bac9-c2039284c0a5
+                $ref: '#/components/schemas/GetBusinessesPaginated'
+              example:
+                prevPage: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=0
+                nextPage: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=2
+                data:
+                  - _id: 5ade4b6f62136427a0515850
+                    name: Foo
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    category: []
+                    subCategory: []
+                    website: 'https://google.com'
+                    email: santa@gmail.com
+                    reviews:
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: a1de1086-d2fd-402b-bb08-02bff70e189f
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 448d26aa-db70-484b-91b0-8d8dae3092e1
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: af8e35ec-33ac-4552-a782-7594129b26e9
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 3073bc91-20ab-43dc-8ec1-30272d08cc86
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 5227c5f9-e69d-42bc-b9e7-366062cc2344
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 83b6e711-c193-4e3c-819f-e1820306e5e3
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 57ca6e70-e75a-439a-af92-87b40a84d809
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 24839c6f-84a3-41f7-9334-1a4420db877d
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 1a699baa-64bf-4b6b-866f-cba4f4393a86
+                      - owner: dringb
+                        stars: 5
+                        cost: 5
+                        message: Foo
+                        uuid: 0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+                    photos:
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 0a496c98-0782-436b-a115-ebe51a843a08
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 58469f78-6a3f-4163-af35-012dca3ae88e
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 6a10e594-8481-4a90-958f-d90899bb2ea8
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 2fc59c32-27cf-4e0b-8676-5390396c9524
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 2119fc8a-924e-4055-881a-cc8567fe9099
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+                      - owner: dringb
+                        image: 'https://www.bing.com/'
+                        caption: some caption
+                        uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+                    uuid: 0c9f2a1e-5c78-41ce-8d8b-009497ceb94e
+                  - _id: 5ade522eac211b3b5d4bd1ce
+                    name: Foo
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    category: []
+                    subCategory: []
+                    website: 'https://google.com'
+                    email: santa@gmail.com
+                    reviews: []
+                    photos: []
+                    uuid: 257779fe-14ea-4a79-8247-0914986bce8b
+                  - _id: 5ade522fac211b3b5d4bd1cf
+                    name: Foo
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    category: []
+                    subCategory: []
+                    website: 'https://google.com'
+                    email: santa@gmail.com
+                    reviews: []
+                    photos: []
+                    uuid: 5f3431de-baad-4c88-b218-c05384a2fb65
+                  - _id: 5ade5230ac211b3b5d4bd1d0
+                    name: Foo
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    category: []
+                    subCategory: []
+                    website: 'https://google.com'
+                    email: santa@gmail.com
+                    reviews: []
+                    photos: []
+                    uuid: 591db462-a0b6-4ae8-ada0-f92206ad9764
+                  - _id: 5ade5231ac211b3b5d4bd1d1
+                    name: Foo
+                    owner: dringb
+                    address: 12345 wallaby way
+                    city: Salem
+                    state: Oregon
+                    zip: 97302
+                    phone: 123 - 456 - 789
+                    category: []
+                    subCategory: []
+                    website: 'https://google.com'
+                    email: santa@gmail.com
+                    reviews: []
+                    photos: []
+                    uuid: 9a93b848-2077-40e8-bac9-c2039284c0a5
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Businesses
+      summary: Business
+      description: |-
+        Adds a business to the businessDB 
+
+        **Note** Requires that you already have a user account.
+      operationId: Business3
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category:
+                  - Restaurant
+                subCategory:
+                  - Mexican
+                website: 'https://google.com'
+                email: santa@gmail.com
+              $ref: '#/components/schemas/BusinessRequest63'
+            example: >-
+              {"name":"Foo","owner":"dringb","address":"12345 wallaby
+              way","city":"Salem","state":"Oregon","zip":97302,"phone":"123 -
+              456 -
+              789","category":["Restaurant"],"subCategory":["Mexican"],"website":"https://google.com","email":"santa@gmail.com"}
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  name: Foo
+                  owner: dringb
+                  address: 12345 wallaby way
+                  city: Salem
+                  state: Oregon
+                  zip: 97302
+                  phone: 123 - 456 - 789
+                  category: []
+                  subCategory: []
+                  website: 'https://google.com'
+                  email: santa@gmail.com
+                  reviews: []
+                  photos: []
+                  _id: 5ada5176a25ed0a0c68bc5b9
+                $ref: '#/components/schemas/AddBusiness'
+              example:
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: 'https://google.com'
+                email: santa@gmail.com
+                reviews: []
+                photos: []
+                _id: 5ada5176a25ed0a0c68bc5b9
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/businesses/id/{BusinessID}/reviews':
+    get:
+      tags:
+        - Businesses
+      summary: Paginated Business reviews
+      description: Get all business reviews by ID with pagination
+      operationId: PaginatedBusinessReviews
+      parameters:
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 5
+          example: 5
+        - name: page
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+          example: 1
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5adbb602a941b26995553641
+                      name: fart
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews:
+                        - author: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+                      photos:
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+                  $ref: '#/components/schemas/GetBusiness'
+              example:
+                - _id: 5adbb602a941b26995553641
+                  name: fart
+                  owner: dringb
+                  address: 12345 wallaby way
+                  city: Salem
+                  state: Oregon
+                  zip: 97302
+                  phone: 123 - 456 - 789
+                  category: []
+                  subCategory: []
+                  website: 'https://google.com'
+                  email: santa@gmail.com
+                  reviews:
+                    - author: dringb
+                      stars: 5
+                      cost: 5
+                      message: Foo
+                      uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+                  photos:
+                    - owner: dringb
+                      image: 'https://www.bing.com/'
+                      caption: some caption
+                      uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Businesses
+      summary: Business Review
+      description: |-
+        Create a business review 
+
+        ** Note ** A user can only make one review per business
+      operationId: BusinessReview1
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+              $ref: '#/components/schemas/BusinessReviewrequest73'
+            example: '{"owner":"dringb","stars":5,"cost":5,"message":"Foo"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5ada5b0591f168c7cb64eb87
+                      name: Foo
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews:
+                        - author: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 5c4e9c8b-2947-4fae-ba6e-81dfa9dace8d
+                      photos: []
+                  $ref: '#/components/schemas/CreateBusinessReview'
+              example:
+                - _id: 5ada5b0591f168c7cb64eb87
+                  name: Foo
+                  owner: dringb
+                  address: 12345 wallaby way
+                  city: Salem
+                  state: Oregon
+                  zip: 97302
+                  phone: 123 - 456 - 789
+                  category: []
+                  subCategory: []
+                  website: 'https://google.com'
+                  email: santa@gmail.com
+                  reviews:
+                    - author: dringb
+                      stars: 5
+                      cost: 5
+                      message: Foo
+                      uuid: 5c4e9c8b-2947-4fae-ba6e-81dfa9dace8d
+                  photos: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/businesses/id/{BusinessID}/photos':
+    get:
+      tags:
+        - Businesses
+      summary: Paginated Business photos
+      description: Get all business photos by ID with pagination
+      operationId: PaginatedBusinessPhotos
+      parameters:
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 5
+          example: 5
+        - name: page
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+          example: 1
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5adbb602a941b26995553641
+                      name: fart
+                      owner: dringb
+                      address: 12345 wallaby way
+                      city: Salem
+                      state: Oregon
+                      zip: 97302
+                      phone: 123 - 456 - 789
+                      category: []
+                      subCategory: []
+                      website: 'https://google.com'
+                      email: santa@gmail.com
+                      reviews:
+                        - author: dringb
+                          stars: 5
+                          cost: 5
+                          message: Foo
+                          uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+                      photos:
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+                  $ref: '#/components/schemas/GetBusiness'
+              example:
+                - _id: 5adbb602a941b26995553641
+                  name: fart
+                  owner: dringb
+                  address: 12345 wallaby way
+                  city: Salem
+                  state: Oregon
+                  zip: 97302
+                  phone: 123 - 456 - 789
+                  category: []
+                  subCategory: []
+                  website: 'https://google.com'
+                  email: santa@gmail.com
+                  reviews:
+                    - author: dringb
+                      stars: 5
+                      cost: 5
+                      message: Foo
+                      uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+                  photos:
+                    - owner: dringb
+                      image: 'https://www.bing.com/'
+                      caption: some caption
+                      uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Businesses
+      summary: Business Photos
+      description: Create a business photo
+      operationId: BusinessPhotos1
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+              $ref: '#/components/schemas/BusinessPhotosrequest'
+            example: >-
+              {"owner":"dringb","image":"https://www.bing.com/","caption":"some
+              caption"}
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5adbb602a941b26995553641
+                      photos:
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 1f71e297-6913-430e-9d0f-cfd13e374e63
+                  $ref: '#/components/schemas/CreatePhoto'
+              example:
+                - _id: 5adbb602a941b26995553641
+                  photos:
+                    - owner: dringb
+                      image: 'https://www.bing.com/'
+                      caption: some caption
+                      uuid: 1f71e297-6913-430e-9d0f-cfd13e374e63
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Paginated users
+      description: Get All users with pagination
+      operationId: PaginatedUsers
+      parameters:
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 5
+          example: 5
+        - name: page
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+          example: 1
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersPaginated'
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Users
+      summary: User
+      description: Adds a user and declares the type of user they are
+      operationId: User
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                type: admin
+              $ref: '#/components/schemas/UserRequest'
+            example: '{"owner":"dringb","type":"admin"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5ada55da36bc14b23c3f7ab3
+                      username: dringb
+                      type: admin
+                      owns: []
+                      reviews: []
+                      photos: []
+                  $ref: '#/components/schemas/CreateUser'
+              example:
+                - _id: 5ada55da36bc14b23c3f7ab3
+                  username: dringb
+                  type: admin
+                  owns: []
+                  reviews: []
+                  photos: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/users/name/{owner}/owned-businesses':
+    get:
+      tags:
+        - Users
+      summary: Paginated Owned Businesses
+      description: Get all owned businesses by a user with pagination
+      operationId: PaginatedOwnedBusinesses
+      parameters:
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 5
+          example: 5
+        - name: page
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+          example: 1
+        - name: owner
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: >-
+                    https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=0
+                  nextPage: >-
+                    https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=2
+                  data:
+                    - _id: 5ade485a2874191e633520a4
+                      owns:
+                        - uuid: c613a7bd-1b52-4911-a0c9-d5008a97260b
+                          url: >-
+                            https://cs493-assignment1.herokuapp.com/businesses/id/5ade637ecca1606844cc4d42
+                        - uuid: 6691b68b-2a4a-47b5-9a2d-6898145eea15
+                          url: >-
+                            https://cs493-assignment1.herokuapp.com/businesses/id/5ade637fcca1606844cc4d43
+                $ref: '#/components/schemas/PaginatedOwnedBusinesses'
+              example:
+                prevPage: >-
+                  https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=0
+                nextPage: >-
+                  https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=2
+                data:
+                  - _id: 5ade485a2874191e633520a4
+                    owns:
+                      - uuid: c613a7bd-1b52-4911-a0c9-d5008a97260b
+                        url: >-
+                          https://cs493-assignment1.herokuapp.com/businesses/id/5ade637ecca1606844cc4d42
+                      - uuid: 6691b68b-2a4a-47b5-9a2d-6898145eea15
+                        url: >-
+                          https://cs493-assignment1.herokuapp.com/businesses/id/5ade637fcca1606844cc4d43
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  /businesses/categories:
+    get:
+      tags:
+        - Businesses
+      summary: Categories
+      description: Get all business categories
+      operationId: Categories
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5ad821f4a43d0c6846ec4655
+                      category: Restaurant
+                      subCategories:
+                        - Mexican
+                    - _id: 5ad822224209349876f3f0cf
+                      category: bar
+                      subCategories:
+                        - Mexican
+                    - _id: 5ad822584209349876f40262
+                      category: bdasar
+                      subCategories:
+                        - Mexican
+                  $ref: '#/components/schemas/GetCategory'
+              example:
+                - _id: 5ad821f4a43d0c6846ec4655
+                  category: Restaurant
+                  subCategories:
+                    - Mexican
+                - _id: 5ad822224209349876f3f0cf
+                  category: bar
+                  subCategories:
+                    - Mexican
+                - _id: 5ad822584209349876f40262
+                  category: bdasar
+                  subCategories:
+                    - Mexican
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Businesses
+      summary: Category
+      description: Add a category for businesses to use
+      operationId: Category2
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                category: Restaurant
+                owner: dringb
+              $ref: '#/components/schemas/CategoryRequest'
+            example: '{"category":"Restaurant","owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  data: null
+                  isBoom: true
+                  isServer: false
+                  output:
+                    statusCode: 400
+                    payload:
+                      statusCode: 400
+                      error: Bad Request
+                      message: No user found
+                    headers: {}
+                $ref: '#/components/schemas/CreateCategoryNoUser'
+              example:
+                data: null
+                isBoom: true
+                isServer: false
+                output:
+                  statusCode: 400
+                  payload:
+                    statusCode: 400
+                    error: Bad Request
+                    message: No user found
+                  headers: {}
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/businesses/categories/{CategoryName}/sub-categories':
+    get:
+      tags:
+        - Businesses
+      summary: Sub Categories
+      description: Get all business subcategories based on the category
+      operationId: SubCategories
+      parameters:
+        - name: CategoryName
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5ad821f4a43d0c6846ec4655
+                      subCategories:
+                        - Mexican
+                  $ref: '#/components/schemas/GetSubCategory'
+              example:
+                - _id: 5ad821f4a43d0c6846ec4655
+                  subCategories:
+                    - Mexican
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    post:
+      tags:
+        - Businesses
+      summary: Sub Category
+      description: Get all sub categories for a given category
+      operationId: SubCategory1
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: CategoryName
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+                subCategory: Mexican
+              $ref: '#/components/schemas/SubCategoryrequest'
+            example: '{"owner":"dringb","subCategory":"Mexican"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5ade1b8f3173159eb8520714
+                      category: Restaurant
+                      owner: dringb
+                      subCategories:
+                        - Mexican
+                  $ref: '#/components/schemas/CreateSubCategory'
+              example:
+                - _id: 5ade1b8f3173159eb8520714
+                  category: Restaurant
+                  owner: dringb
+                  subCategories:
+                    - Mexican
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/users/name/{owner}/photos':
+    get:
+      tags:
+        - Users
+      summary: Paginated Users Photos
+      description: Get photos posted by the user with pagination
+      operationId: PaginatedUsersPhotos
+      parameters:
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 5
+          example: 5
+        - name: page
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+          example: 1
+        - name: owner
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: >-
+                    https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=1
+                  nextPage: >-
+                    https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=3
+                  data:
+                    - uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/581e166b-80ca-4b9a-811b-72184a6b3059
+                    - uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/c66d86cc-7103-445d-a516-791b6d07ef0b
+                    - uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                    - uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/902fadf3-6217-4c21-86c0-8c0585b92c7c
+                    - uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/11ec013e-0844-4d7b-bf0b-4a81126754ff
+                $ref: '#/components/schemas/GetUsersPhotosPaginated'
+              example:
+                prevPage: >-
+                  https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=1
+                nextPage: >-
+                  https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=3
+                data:
+                  - uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/581e166b-80ca-4b9a-811b-72184a6b3059
+                  - uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/c66d86cc-7103-445d-a516-791b6d07ef0b
+                  - uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                  - uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/902fadf3-6217-4c21-86c0-8c0585b92c7c
+                  - uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/11ec013e-0844-4d7b-bf0b-4a81126754ff
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/users/name/{owner}/reviews':
+    get:
+      tags:
+        - Users
+      summary: Paginated User Reviews
+      description: Get all reviews posted by the user with pagination
+      operationId: PaginatedUserReviews
+      parameters:
+        - name: limit
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 5
+          example: 5
+        - name: page
+          in: query
+          description: ''
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: integer
+            format: int32
+            example: 1
+          example: 1
+        - name: owner
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  prevPage: >-
+                    https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=0
+                  nextPage: >-
+                    https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=2
+                  data:
+                    - uuid: 7b9b5872-a0a3-4093-ba67-0ff6b93421df
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/7b9b5872-a0a3-4093-ba67-0ff6b93421df
+                    - uuid: 70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+                    - uuid: 2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+                    - uuid: 6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+                    - uuid: 9e78c45a-ac87-4c6c-8003-176ee415d3c7
+                      url: >-
+                        https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/9e78c45a-ac87-4c6c-8003-176ee415d3c7
+                $ref: '#/components/schemas/PaginatedUserReviews'
+              example:
+                prevPage: >-
+                  https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=0
+                nextPage: >-
+                  https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=2
+                data:
+                  - uuid: 7b9b5872-a0a3-4093-ba67-0ff6b93421df
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/7b9b5872-a0a3-4093-ba67-0ff6b93421df
+                  - uuid: 70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+                  - uuid: 2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+                  - uuid: 6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+                  - uuid: 9e78c45a-ac87-4c6c-8003-176ee415d3c7
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/9e78c45a-ac87-4c6c-8003-176ee415d3c7
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/businesses/id/{BusinessID}/reviews/{ReviewID}':
+    get:
+      tags:
+        - Businesses
+      summary: Specific Review
+      description: Get a specific review by businessid and reviewID
+      operationId: SpecificReview
+      parameters:
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: ReviewID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5ade1e8453c63ea3c9a377dd
+                      name: Foo
+                      reviews: []
+                  $ref: '#/components/schemas/GetSpecificReviewEmpty'
+              example:
+                - _id: 5ade1e8453c63ea3c9a377dd
+                  name: Foo
+                  reviews: []
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Businesses
+      summary: Review
+      description: Delete a review by ID
+      operationId: Review
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: ReviewID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+              $ref: '#/components/schemas/ReviewRequest'
+            example: '{"owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+        - Businesses
+      summary: Business Review
+      description: Edit a business Review by reviewID and businessID
+      operationId: BusinessReview
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: ReviewID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                cost: 0
+                message: Something Else
+                owner: dringb
+              $ref: '#/components/schemas/BusinessReviewrequest'
+            example: '{"cost":0,"message":"Something Else","owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  data: null
+                  isBoom: true
+                  isServer: false
+                  output:
+                    statusCode: 400
+                    payload:
+                      statusCode: 400
+                      error: Bad Request
+                      message: User not Found
+                    headers: {}
+                $ref: '#/components/schemas/EditBusinessReviewError'
+              example:
+                data: null
+                isBoom: true
+                isServer: false
+                output:
+                  statusCode: 400
+                  payload:
+                    statusCode: 400
+                    error: Bad Request
+                    message: User not Found
+                  headers: {}
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/businesses/id/{BusinessID}/photos/{PhotoID}':
+    get:
+      tags:
+        - Businesses
+      summary: Specific Photo
+      description: Get specific photos posted by ID
+      operationId: SpecificPhoto
+      parameters:
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: PhotoID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  example:
+                    - _id: 5ade674cea4f48741ffc7e97
+                      name: Foo
+                      photos:
+                        - owner: dringb
+                          image: 'https://www.bing.com/'
+                          caption: some caption
+                          uuid: 15ea6449-aeba-4a98-8079-1e3de2d42db6
+                  $ref: '#/components/schemas/SpecificPhoto'
+              example:
+                - _id: 5ade674cea4f48741ffc7e97
+                  name: Foo
+                  photos:
+                    - owner: dringb
+                      image: 'https://www.bing.com/'
+                      caption: some caption
+                      uuid: 15ea6449-aeba-4a98-8079-1e3de2d42db6
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    delete:
+      tags:
+        - Businesses
+      summary: Photo
+      description: Delete a photo by ID
+      operationId: Photo
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: PhotoID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                owner: dringb
+              $ref: '#/components/schemas/PhotoRequest'
+            example: '{"owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+        - Businesses
+      summary: Business Photo
+      description: Edit business photo by BusinessID and PhotoID
+      operationId: BusinessPhoto
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: BusinessID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: PhotoID
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                caption: fart
+                owner: dringb
+              $ref: '#/components/schemas/BusinessPhotorequest'
+            example: '{"caption":"fart","owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  'n': 1
+                  nModified: 1
+                  opTime:
+                    ts: 6547732407879991000
+                    t: 1
+                  electionId: 7fffffff0000000000000001
+                  ok: 1
+                $ref: '#/components/schemas/EditBusinessPhoto'
+              example:
+                'n': 1
+                nModified: 1
+                opTime:
+                  ts: 6547732407879991000
+                  t: 1
+                electionId: 7fffffff0000000000000001
+                ok: 1
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/businesses/categories/{CategoryName}':
+    delete:
+      tags:
+        - Businesses
+      summary: category
+      description: >-
+        Delete a category provided the admin name
+
+
+        ** Note ** That the key for access is sent via query string instead of
+        in the body
+      operationId: Category1
+      parameters:
+        - name: owner
+          in: query
+          description: ''
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: '{{owner}}'
+          example: '{{owner}}'
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: CategoryName
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  'n': 1
+                  opTime:
+                    ts: 6547711104842203000
+                    t: 1
+                  electionId: 7fffffff0000000000000001
+                  ok: 1
+                $ref: '#/components/schemas/DeleteCategorySuccess'
+              example:
+                'n': 1
+                opTime:
+                  ts: 6547711104842203000
+                  t: 1
+                electionId: 7fffffff0000000000000001
+                ok: 1
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+    patch:
+      tags:
+        - Businesses
+      summary: Category
+      description: >-
+        Allows editing of the category name. 
+
+
+        **Note** That you can't change the sub categories of a category, to do
+        that, it'll have to be removed and added back from the respective routes
+      operationId: Category
+      parameters:
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: CategoryName
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              example:
+                category: fart
+                owner: dringb
+              $ref: '#/components/schemas/CategoryRequest'
+            example: '{"category":"fart","owner":"dringb"}'
+        required: true
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  'n': 1
+                  nModified: 1
+                  opTime:
+                    ts: 6547752194794324000
+                    t: 1
+                  electionId: 7fffffff0000000000000001
+                  ok: 1
+                $ref: '#/components/schemas/EditCategory'
+              example:
+                'n': 1
+                nModified: 1
+                opTime:
+                  ts: 6547752194794324000
+                  t: 1
+                electionId: 7fffffff0000000000000001
+                ok: 1
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+  '/businesses/categories/{CategoryName}/sub-categories/{SubCategoryName}':
+    delete:
+      tags:
+        - Businesses
+      summary: sub category
+      description: >-
+        Delete a subcategory based off of the name, along with the query string
+        admin name value
+      operationId: SubCategory
+      parameters:
+        - name: owner
+          in: query
+          description: ''
+          required: true
+          style: form
+          explode: true
+          schema:
+            type: string
+            example: '{{owner}}'
+          example: '{{owner}}'
+        - name: Content-Type
+          in: header
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+            example: application/json
+          example: application/json
+        - name: CategoryName
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+        - name: SubCategoryName
+          in: path
+          description: ''
+          required: true
+          style: simple
+          explode: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                example:
+                  'n': 1
+                  nModified: 1
+                  opTime:
+                    ts: 6547741831038239000
+                    t: 1
+                  electionId: 7fffffff0000000000000001
+                  ok: 1
+                $ref: '#/components/schemas/DeleteSubCategory'
+              example:
+                'n': 1
+                nModified: 1
+                opTime:
+                  ts: 6547741831038239000
+                  t: 1
+                electionId: 7fffffff0000000000000001
+                ok: 1
+      deprecated: false
+      security: []
+      x-operation-settings:
+        CollectParameters: false
+        AllowDynamicQueryParameters: false
+        AllowDynamicFormParameters: false
+        IsMultiContentStreaming: false
+components:
+  schemas:
+    GetBusiness:
+      title: Get Business
+      required:
+        - _id
+        - name
+        - owner
+        - address
+        - city
+        - state
+        - zip
+        - phone
+        - category
+        - subCategory
+        - website
+        - email
+        - reviews
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5adbb602a941b26995553641
+        name:
+          type: string
+          example: fart
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: integer
+          format: int32
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        category:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        subCategory:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        website:
+          type: string
+          example: 'https://google.com'
+        email:
+          type: string
+          example: santa@gmail.com
+        reviews:
+          type: array
+          items:
+            example:
+              - author: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+            $ref: '#/components/schemas/Review'
+          description: ''
+        photos:
+          type: array
+          items:
+            example:
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+            $ref: '#/components/schemas/Photo'
+          description: ''
+      example:
+        _id: 5adbb602a941b26995553641
+        name: fart
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        category: []
+        subCategory: []
+        website: 'https://google.com'
+        email: santa@gmail.com
+        reviews:
+          - author: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+        photos:
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+    Review:
+      title: Review
+      required:
+        - author
+        - stars
+        - cost
+        - message
+        - uuid
+      type: object
+      properties:
+        author:
+          type: string
+          example: dringb
+        stars:
+          type: integer
+          format: int32
+          example: 5
+        cost:
+          type: integer
+          format: int32
+          example: 5
+        message:
+          type: string
+          example: Foo
+        uuid:
+          type: string
+          example: 7905ca72-41a4-4535-a8e2-4441947f7efd
+      example:
+        author: dringb
+        stars: 5
+        cost: 5
+        message: Foo
+        uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+    Photo:
+      title: Photo
+      required:
+        - owner
+        - image
+        - caption
+        - uuid
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        image:
+          type: string
+          example: 'https://www.bing.com/'
+        caption:
+          type: string
+          example: some caption
+        uuid:
+          type: string
+          example: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+      example:
+        owner: dringb
+        image: 'https://www.bing.com/'
+        caption: some caption
+        uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+    GetBusinessReview:
+      title: Get Business review
+      required:
+        - _id
+        - name
+        - reviews
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ade674cea4f48741ffc7e97
+        name:
+          type: string
+          example: Foo
+        reviews:
+          type: array
+          items:
+            example:
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+            $ref: '#/components/schemas/Review4'
+          description: ''
+      example:
+        _id: 5ade674cea4f48741ffc7e97
+        name: Foo
+        reviews:
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+    Review4:
+      title: Review4
+      required:
+        - owner
+        - stars
+        - cost
+        - message
+        - uuid
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        stars:
+          type: integer
+          format: int32
+          example: 5
+        cost:
+          type: integer
+          format: int32
+          example: 5
+        message:
+          type: string
+          example: Foo
+        uuid:
+          type: string
+          example: 4f57b394-6327-4682-b448-b98b2cdf9952
+      example:
+        owner: dringb
+        stars: 5
+        cost: 5
+        message: Foo
+        uuid: 4f57b394-6327-4682-b448-b98b2cdf9952
+    GetBusinessesPaginated:
+      title: Get Businesses Paginated
+      required:
+        - prevPage
+        - nextPage
+        - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: 'https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=0'
+        nextPage:
+          type: string
+          example: 'https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=2'
+        data:
+          type: array
+          items:
+            example:
+              - _id: 5ade4b6f62136427a0515850
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: 'https://google.com'
+                email: santa@gmail.com
+                reviews:
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: a1de1086-d2fd-402b-bb08-02bff70e189f
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 448d26aa-db70-484b-91b0-8d8dae3092e1
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: af8e35ec-33ac-4552-a782-7594129b26e9
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 3073bc91-20ab-43dc-8ec1-30272d08cc86
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 5227c5f9-e69d-42bc-b9e7-366062cc2344
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 83b6e711-c193-4e3c-819f-e1820306e5e3
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 57ca6e70-e75a-439a-af92-87b40a84d809
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 24839c6f-84a3-41f7-9334-1a4420db877d
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 1a699baa-64bf-4b6b-866f-cba4f4393a86
+                  - owner: dringb
+                    stars: 5
+                    cost: 5
+                    message: Foo
+                    uuid: 0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+                photos:
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 0a496c98-0782-436b-a115-ebe51a843a08
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 58469f78-6a3f-4163-af35-012dca3ae88e
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 6a10e594-8481-4a90-958f-d90899bb2ea8
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 2fc59c32-27cf-4e0b-8676-5390396c9524
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 2119fc8a-924e-4055-881a-cc8567fe9099
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+                  - owner: dringb
+                    image: 'https://www.bing.com/'
+                    caption: some caption
+                    uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+                uuid: 0c9f2a1e-5c78-41ce-8d8b-009497ceb94e
+              - _id: 5ade522eac211b3b5d4bd1ce
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: 'https://google.com'
+                email: santa@gmail.com
+                reviews: []
+                photos: []
+                uuid: 257779fe-14ea-4a79-8247-0914986bce8b
+              - _id: 5ade522fac211b3b5d4bd1cf
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: 'https://google.com'
+                email: santa@gmail.com
+                reviews: []
+                photos: []
+                uuid: 5f3431de-baad-4c88-b218-c05384a2fb65
+              - _id: 5ade5230ac211b3b5d4bd1d0
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: 'https://google.com'
+                email: santa@gmail.com
+                reviews: []
+                photos: []
+                uuid: 591db462-a0b6-4ae8-ada0-f92206ad9764
+              - _id: 5ade5231ac211b3b5d4bd1d1
+                name: Foo
+                owner: dringb
+                address: 12345 wallaby way
+                city: Salem
+                state: Oregon
+                zip: 97302
+                phone: 123 - 456 - 789
+                category: []
+                subCategory: []
+                website: 'https://google.com'
+                email: santa@gmail.com
+                reviews: []
+                photos: []
+                uuid: 9a93b848-2077-40e8-bac9-c2039284c0a5
+            $ref: '#/components/schemas/Datum'
+          description: ''
+      example:
+        prevPage: 'https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=0'
+        nextPage: 'https://cs493-assignment1.herokuapp.com/businesses/?limit=5&page=2'
+        data:
+          - _id: 5ade4b6f62136427a0515850
+            name: Foo
+            owner: dringb
+            address: 12345 wallaby way
+            city: Salem
+            state: Oregon
+            zip: 97302
+            phone: 123 - 456 - 789
+            category: []
+            subCategory: []
+            website: 'https://google.com'
+            email: santa@gmail.com
+            reviews:
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: a1de1086-d2fd-402b-bb08-02bff70e189f
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 448d26aa-db70-484b-91b0-8d8dae3092e1
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: af8e35ec-33ac-4552-a782-7594129b26e9
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 3073bc91-20ab-43dc-8ec1-30272d08cc86
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 5227c5f9-e69d-42bc-b9e7-366062cc2344
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 83b6e711-c193-4e3c-819f-e1820306e5e3
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 57ca6e70-e75a-439a-af92-87b40a84d809
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 24839c6f-84a3-41f7-9334-1a4420db877d
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 1a699baa-64bf-4b6b-866f-cba4f4393a86
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+            photos:
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 0a496c98-0782-436b-a115-ebe51a843a08
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 58469f78-6a3f-4163-af35-012dca3ae88e
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 6a10e594-8481-4a90-958f-d90899bb2ea8
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 2fc59c32-27cf-4e0b-8676-5390396c9524
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 2119fc8a-924e-4055-881a-cc8567fe9099
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+            uuid: 0c9f2a1e-5c78-41ce-8d8b-009497ceb94e
+          - _id: 5ade522eac211b3b5d4bd1ce
+            name: Foo
+            owner: dringb
+            address: 12345 wallaby way
+            city: Salem
+            state: Oregon
+            zip: 97302
+            phone: 123 - 456 - 789
+            category: []
+            subCategory: []
+            website: 'https://google.com'
+            email: santa@gmail.com
+            reviews: []
+            photos: []
+            uuid: 257779fe-14ea-4a79-8247-0914986bce8b
+          - _id: 5ade522fac211b3b5d4bd1cf
+            name: Foo
+            owner: dringb
+            address: 12345 wallaby way
+            city: Salem
+            state: Oregon
+            zip: 97302
+            phone: 123 - 456 - 789
+            category: []
+            subCategory: []
+            website: 'https://google.com'
+            email: santa@gmail.com
+            reviews: []
+            photos: []
+            uuid: 5f3431de-baad-4c88-b218-c05384a2fb65
+          - _id: 5ade5230ac211b3b5d4bd1d0
+            name: Foo
+            owner: dringb
+            address: 12345 wallaby way
+            city: Salem
+            state: Oregon
+            zip: 97302
+            phone: 123 - 456 - 789
+            category: []
+            subCategory: []
+            website: 'https://google.com'
+            email: santa@gmail.com
+            reviews: []
+            photos: []
+            uuid: 591db462-a0b6-4ae8-ada0-f92206ad9764
+          - _id: 5ade5231ac211b3b5d4bd1d1
+            name: Foo
+            owner: dringb
+            address: 12345 wallaby way
+            city: Salem
+            state: Oregon
+            zip: 97302
+            phone: 123 - 456 - 789
+            category: []
+            subCategory: []
+            website: 'https://google.com'
+            email: santa@gmail.com
+            reviews: []
+            photos: []
+            uuid: 9a93b848-2077-40e8-bac9-c2039284c0a5
+    Datum:
+      title: Datum
+      required:
+        - _id
+        - name
+        - owner
+        - address
+        - city
+        - state
+        - zip
+        - phone
+        - category
+        - subCategory
+        - website
+        - email
+        - reviews
+        - photos
+        - uuid
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ade4b6f62136427a0515850
+        name:
+          type: string
+          example: Foo
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: integer
+          format: int32
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        category:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        subCategory:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        website:
+          type: string
+          example: 'https://google.com'
+        email:
+          type: string
+          example: santa@gmail.com
+        reviews:
+          type: array
+          items:
+            example:
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: a1de1086-d2fd-402b-bb08-02bff70e189f
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 448d26aa-db70-484b-91b0-8d8dae3092e1
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: af8e35ec-33ac-4552-a782-7594129b26e9
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 3073bc91-20ab-43dc-8ec1-30272d08cc86
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 5227c5f9-e69d-42bc-b9e7-366062cc2344
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 83b6e711-c193-4e3c-819f-e1820306e5e3
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 57ca6e70-e75a-439a-af92-87b40a84d809
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 24839c6f-84a3-41f7-9334-1a4420db877d
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 1a699baa-64bf-4b6b-866f-cba4f4393a86
+              - owner: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+            $ref: '#/components/schemas/Review4'
+          description: ''
+        photos:
+          type: array
+          items:
+            example:
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 0a496c98-0782-436b-a115-ebe51a843a08
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 58469f78-6a3f-4163-af35-012dca3ae88e
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 6a10e594-8481-4a90-958f-d90899bb2ea8
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 2fc59c32-27cf-4e0b-8676-5390396c9524
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 2119fc8a-924e-4055-881a-cc8567fe9099
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+            $ref: '#/components/schemas/Photo'
+          description: ''
+        uuid:
+          type: string
+          example: 0c9f2a1e-5c78-41ce-8d8b-009497ceb94e
+      example:
+        _id: 5ade4b6f62136427a0515850
+        name: Foo
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        category: []
+        subCategory: []
+        website: 'https://google.com'
+        email: santa@gmail.com
+        reviews:
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: a1de1086-d2fd-402b-bb08-02bff70e189f
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 448d26aa-db70-484b-91b0-8d8dae3092e1
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: af8e35ec-33ac-4552-a782-7594129b26e9
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 3073bc91-20ab-43dc-8ec1-30272d08cc86
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 5227c5f9-e69d-42bc-b9e7-366062cc2344
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 83b6e711-c193-4e3c-819f-e1820306e5e3
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 57ca6e70-e75a-439a-af92-87b40a84d809
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 24839c6f-84a3-41f7-9334-1a4420db877d
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 1a699baa-64bf-4b6b-866f-cba4f4393a86
+          - owner: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+        photos:
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 0a496c98-0782-436b-a115-ebe51a843a08
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 58469f78-6a3f-4163-af35-012dca3ae88e
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 6a10e594-8481-4a90-958f-d90899bb2ea8
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 2fc59c32-27cf-4e0b-8676-5390396c9524
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 2119fc8a-924e-4055-881a-cc8567fe9099
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+        uuid: 0c9f2a1e-5c78-41ce-8d8b-009497ceb94e
+    GetUser:
+      title: Get user
+      required:
+        - _id
+        - username
+        - type
+        - owns
+        - reviews
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5adbb2947e9391601308fa81
+        username:
+          type: string
+          example: dringb
+        type:
+          type: string
+          example: admin
+        owns:
+          type: array
+          items:
+            example:
+              - uuid: 22eaa8e2-d75a-4a94-9fc1-bd887f2c98ee
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb2a27e9391601308fa82
+              - uuid: 610bc861-493c-4d7e-8c7d-0e1447cabd1a
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb571dc0f2b68279abf24
+              - uuid: null
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641
+              - uuid: 9afe4e5f-4cc5-4105-9180-8d4ba32bb5f0
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb63786ace86a4ce1f4f3
+              - uuid: 9e913ef2-f8ee-4db2-af0b-ca17556e569e
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb68c4103b66b4386ab6d
+            $ref: '#/components/schemas/Own'
+          description: ''
+        reviews:
+          type: array
+          items:
+            example:
+              - uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/7905ca72-41a4-4535-a8e2-4441947f7efd
+            $ref: '#/components/schemas/Review19'
+          description: ''
+        photos:
+          type: array
+          items:
+            example:
+              - uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/5cec0314-05bd-4b60-b95c-b92c3e9c752d
+            $ref: '#/components/schemas/Photo20'
+          description: ''
+      example:
+        _id: 5adbb2947e9391601308fa81
+        username: dringb
+        type: admin
+        owns:
+          - uuid: 22eaa8e2-d75a-4a94-9fc1-bd887f2c98ee
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb2a27e9391601308fa82
+          - uuid: 610bc861-493c-4d7e-8c7d-0e1447cabd1a
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb571dc0f2b68279abf24
+          - uuid: null
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641
+          - uuid: 9afe4e5f-4cc5-4105-9180-8d4ba32bb5f0
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb63786ace86a4ce1f4f3
+          - uuid: 9e913ef2-f8ee-4db2-af0b-ca17556e569e
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb68c4103b66b4386ab6d
+        reviews:
+          - uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/7905ca72-41a4-4535-a8e2-4441947f7efd
+        photos:
+          - uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/5cec0314-05bd-4b60-b95c-b92c3e9c752d
+    Own:
+      title: Own
+      required:
+        - uuid
+        - url
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 22eaa8e2-d75a-4a94-9fc1-bd887f2c98ee
+        url:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/businesses/id/5adbb2a27e9391601308fa82
+      example:
+        uuid: 22eaa8e2-d75a-4a94-9fc1-bd887f2c98ee
+        url: >-
+          https://cs493-assignment1.herokuapp.com/businesses/id/5adbb2a27e9391601308fa82
+    Review19:
+      title: Review19
+      required:
+        - uuid
+        - url
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 7905ca72-41a4-4535-a8e2-4441947f7efd
+        url:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/7905ca72-41a4-4535-a8e2-4441947f7efd
+      example:
+        uuid: 7905ca72-41a4-4535-a8e2-4441947f7efd
+        url: >-
+          https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/7905ca72-41a4-4535-a8e2-4441947f7efd
+    Photo20:
+      title: Photo20
+      required:
+        - uuid
+        - url
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+        url:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/5cec0314-05bd-4b60-b95c-b92c3e9c752d
+      example:
+        uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+        url: >-
+          https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/5cec0314-05bd-4b60-b95c-b92c3e9c752d
+    GetUsersPaginated:
+      title: Get users Paginated
+      required:
+        - prevPage
+        - nextPage
+        - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: 'https://cs493-assignment1.herokuapp.com/users/?limit=5&page=0'
+        nextPage:
+          type: string
+          example: 'https://cs493-assignment1.herokuapp.com/users/?limit=5&page=2'
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Datum22'
+          description: ''
+    Datum22:
+      title: Datum22
+      required:
+        - _id
+        - owns
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ade485a2874191e633520a4
+        owns:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        owner:
+          type: string
+          example: dringb
+        type:
+          type: string
+          example: admin
+        reviews:
+          type: array
+          items:
+            example:
+              - uuid: a1de1086-d2fd-402b-bb08-02bff70e189f
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/a1de1086-d2fd-402b-bb08-02bff70e189f
+              - uuid: 448d26aa-db70-484b-91b0-8d8dae3092e1
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/448d26aa-db70-484b-91b0-8d8dae3092e1
+              - uuid: af8e35ec-33ac-4552-a782-7594129b26e9
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/af8e35ec-33ac-4552-a782-7594129b26e9
+              - uuid: 3073bc91-20ab-43dc-8ec1-30272d08cc86
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/3073bc91-20ab-43dc-8ec1-30272d08cc86
+              - uuid: 348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/348f4a51-70e8-4d6a-89bd-8089c02ef5f0
+              - uuid: 5227c5f9-e69d-42bc-b9e7-366062cc2344
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/5227c5f9-e69d-42bc-b9e7-366062cc2344
+              - uuid: 611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/611822d4-4305-4cc8-b6cc-4e8a9cd1a40a
+              - uuid: 83b6e711-c193-4e3c-819f-e1820306e5e3
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/83b6e711-c193-4e3c-819f-e1820306e5e3
+              - uuid: 57ca6e70-e75a-439a-af92-87b40a84d809
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/57ca6e70-e75a-439a-af92-87b40a84d809
+              - uuid: 24839c6f-84a3-41f7-9334-1a4420db877d
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/24839c6f-84a3-41f7-9334-1a4420db877d
+              - uuid: 1a699baa-64bf-4b6b-866f-cba4f4393a86
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/1a699baa-64bf-4b6b-866f-cba4f4393a86
+              - uuid: 0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/0dd7943c-70e7-4d6e-a0d8-9c3489a686bc
+            $ref: '#/components/schemas/Review19'
+          description: ''
+        photos:
+          type: array
+          items:
+            example:
+              - uuid: 0a496c98-0782-436b-a115-ebe51a843a08
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/0a496c98-0782-436b-a115-ebe51a843a08
+              - uuid: 58469f78-6a3f-4163-af35-012dca3ae88e
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/58469f78-6a3f-4163-af35-012dca3ae88e
+              - uuid: 6a10e594-8481-4a90-958f-d90899bb2ea8
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/6a10e594-8481-4a90-958f-d90899bb2ea8
+              - uuid: 2fc59c32-27cf-4e0b-8676-5390396c9524
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/2fc59c32-27cf-4e0b-8676-5390396c9524
+              - uuid: 2119fc8a-924e-4055-881a-cc8567fe9099
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/2119fc8a-924e-4055-881a-cc8567fe9099
+              - uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/581e166b-80ca-4b9a-811b-72184a6b3059
+              - uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/c66d86cc-7103-445d-a516-791b6d07ef0b
+              - uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/51bef6a6-2e78-440c-98f8-06fd2edfc63e
+              - uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/902fadf3-6217-4c21-86c0-8c0585b92c7c
+              - uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/11ec013e-0844-4d7b-bf0b-4a81126754ff
+            $ref: '#/components/schemas/Photo20'
+          description: ''
+        username:
+          type: string
+          example: dringb
+    OwnedBusiness:
+      title: Owned Business
+      required:
+        - _id
+        - owns
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5adbb2947e9391601308fa81
+        owns:
+          type: array
+          items:
+            example:
+              - uuid: 22eaa8e2-d75a-4a94-9fc1-bd887f2c98ee
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb2a27e9391601308fa82
+              - uuid: 610bc861-493c-4d7e-8c7d-0e1447cabd1a
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb571dc0f2b68279abf24
+              - uuid: null
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641
+              - uuid: 9afe4e5f-4cc5-4105-9180-8d4ba32bb5f0
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb63786ace86a4ce1f4f3
+              - uuid: 9e913ef2-f8ee-4db2-af0b-ca17556e569e
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb68c4103b66b4386ab6d
+            $ref: '#/components/schemas/Own'
+          description: ''
+      example:
+        _id: 5adbb2947e9391601308fa81
+        owns:
+          - uuid: 22eaa8e2-d75a-4a94-9fc1-bd887f2c98ee
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb2a27e9391601308fa82
+          - uuid: 610bc861-493c-4d7e-8c7d-0e1447cabd1a
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb571dc0f2b68279abf24
+          - uuid: null
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641
+          - uuid: 9afe4e5f-4cc5-4105-9180-8d4ba32bb5f0
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb63786ace86a4ce1f4f3
+          - uuid: 9e913ef2-f8ee-4db2-af0b-ca17556e569e
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb68c4103b66b4386ab6d
+    PaginatedOwnedBusinesses:
+      title: Paginated Owned Businesses
+      required:
+        - prevPage
+        - nextPage
+        - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=0
+        nextPage:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=2
+        data:
+          type: array
+          items:
+            example:
+              - _id: 5ade485a2874191e633520a4
+                owns:
+                  - uuid: c613a7bd-1b52-4911-a0c9-d5008a97260b
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade637ecca1606844cc4d42
+                  - uuid: 6691b68b-2a4a-47b5-9a2d-6898145eea15
+                    url: >-
+                      https://cs493-assignment1.herokuapp.com/businesses/id/5ade637fcca1606844cc4d43
+            $ref: '#/components/schemas/Datum28'
+          description: ''
+      example:
+        prevPage: >-
+          https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=0
+        nextPage: >-
+          https://cs493-assignment1.herokuapp.com/users/name/dringb/owned-businesses/?limit=5&page=2
+        data:
+          - _id: 5ade485a2874191e633520a4
+            owns:
+              - uuid: c613a7bd-1b52-4911-a0c9-d5008a97260b
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade637ecca1606844cc4d42
+              - uuid: 6691b68b-2a4a-47b5-9a2d-6898145eea15
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade637fcca1606844cc4d43
+    Datum28:
+      title: Datum28
+      required:
+        - _id
+        - owns
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ade485a2874191e633520a4
+        owns:
+          type: array
+          items:
+            example:
+              - uuid: c613a7bd-1b52-4911-a0c9-d5008a97260b
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade637ecca1606844cc4d42
+              - uuid: 6691b68b-2a4a-47b5-9a2d-6898145eea15
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade637fcca1606844cc4d43
+            $ref: '#/components/schemas/Own'
+          description: ''
+      example:
+        _id: 5ade485a2874191e633520a4
+        owns:
+          - uuid: c613a7bd-1b52-4911-a0c9-d5008a97260b
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade637ecca1606844cc4d42
+          - uuid: 6691b68b-2a4a-47b5-9a2d-6898145eea15
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade637fcca1606844cc4d43
+    GetCategory:
+      title: Get Category
+      required:
+        - _id
+        - category
+        - subCategories
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ad821f4a43d0c6846ec4655
+        category:
+          type: string
+          example: Restaurant
+        subCategories:
+          type: array
+          items:
+            type: string
+            example:
+              - Mexican
+          description: ''
+      example:
+        _id: 5ad821f4a43d0c6846ec4655
+        category: Restaurant
+        subCategories:
+          - Mexican
+    GetSubCategory:
+      title: Get Sub Category
+      required:
+        - _id
+        - subCategories
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ad821f4a43d0c6846ec4655
+        subCategories:
+          type: array
+          items:
+            type: string
+            example:
+              - Mexican
+          description: ''
+      example:
+        _id: 5ad821f4a43d0c6846ec4655
+        subCategories:
+          - Mexican
+    GetPhoto:
+      title: Get Photo
+      required:
+        - _id
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5adbb2947e9391601308fa81
+        photos:
+          type: array
+          items:
+            example:
+              - uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/5cec0314-05bd-4b60-b95c-b92c3e9c752d
+            $ref: '#/components/schemas/Photo20'
+          description: ''
+      example:
+        _id: 5adbb2947e9391601308fa81
+        photos:
+          - uuid: 5cec0314-05bd-4b60-b95c-b92c3e9c752d
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5adbb602a941b26995553641/reviews/5cec0314-05bd-4b60-b95c-b92c3e9c752d
+    GetUsersPhotosPaginated:
+      title: Get Users Photos Paginated
+      required:
+        - prevPage
+        - nextPage
+        - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=1
+        nextPage:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=3
+        data:
+          type: array
+          items:
+            example:
+              - uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/581e166b-80ca-4b9a-811b-72184a6b3059
+              - uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/c66d86cc-7103-445d-a516-791b6d07ef0b
+              - uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/51bef6a6-2e78-440c-98f8-06fd2edfc63e
+              - uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/902fadf3-6217-4c21-86c0-8c0585b92c7c
+              - uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/11ec013e-0844-4d7b-bf0b-4a81126754ff
+            $ref: '#/components/schemas/Datum35'
+          description: ''
+      example:
+        prevPage: >-
+          https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=1
+        nextPage: >-
+          https://cs493-assignment1.herokuapp.com/users/name/dringb/photos/?limit=5&page=3
+        data:
+          - uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/581e166b-80ca-4b9a-811b-72184a6b3059
+          - uuid: c66d86cc-7103-445d-a516-791b6d07ef0b
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/c66d86cc-7103-445d-a516-791b6d07ef0b
+          - uuid: 51bef6a6-2e78-440c-98f8-06fd2edfc63e
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/51bef6a6-2e78-440c-98f8-06fd2edfc63e
+          - uuid: 902fadf3-6217-4c21-86c0-8c0585b92c7c
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/902fadf3-6217-4c21-86c0-8c0585b92c7c
+          - uuid: 11ec013e-0844-4d7b-bf0b-4a81126754ff
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/11ec013e-0844-4d7b-bf0b-4a81126754ff
+    Datum35:
+      title: Datum35
+      required:
+        - uuid
+        - url
+      type: object
+      properties:
+        uuid:
+          type: string
+          example: 581e166b-80ca-4b9a-811b-72184a6b3059
+        url:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/581e166b-80ca-4b9a-811b-72184a6b3059
+      example:
+        uuid: 581e166b-80ca-4b9a-811b-72184a6b3059
+        url: >-
+          https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/photos/581e166b-80ca-4b9a-811b-72184a6b3059
+    GetReviewsError:
+      title: Get Reviews error
+      required:
+        - data
+        - isBoom
+        - isServer
+        - output
+      type: object
+      properties:
+        data:
+          type: string
+          nullable: true
+        isBoom:
+          type: boolean
+          example: true
+        isServer:
+          type: boolean
+          example: false
+        output:
+          example:
+            statusCode: 400
+            payload:
+              statusCode: 400
+              error: Bad Request
+              message: user not found
+            headers: {}
+          $ref: '#/components/schemas/Output'
+      example:
+        data: null
+        isBoom: true
+        isServer: false
+        output:
+          statusCode: 400
+          payload:
+            statusCode: 400
+            error: Bad Request
+            message: user not found
+          headers: {}
+    Output:
+      title: Output
+      required:
+        - statusCode
+        - payload
+        - headers
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 400
+        payload:
+          example:
+            statusCode: 400
+            error: Bad Request
+            message: user not found
+          $ref: '#/components/schemas/Payload'
+        headers:
+          type: object
+          example: {}
+      example:
+        statusCode: 400
+        payload:
+          statusCode: 400
+          error: Bad Request
+          message: user not found
+        headers: {}
+    Payload:
+      title: Payload
+      required:
+        - statusCode
+        - error
+        - message
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          format: int32
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: user not found
+      example:
+        statusCode: 400
+        error: Bad Request
+        message: user not found
+    PaginatedUserReviews:
+      title: Paginated User Reviews
+      required:
+        - prevPage
+        - nextPage
+        - data
+      type: object
+      properties:
+        prevPage:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=0
+        nextPage:
+          type: string
+          example: >-
+            https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=2
+        data:
+          type: array
+          items:
+            example:
+              - uuid: 7b9b5872-a0a3-4093-ba67-0ff6b93421df
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/7b9b5872-a0a3-4093-ba67-0ff6b93421df
+              - uuid: 70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+              - uuid: 2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+              - uuid: 6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+              - uuid: 9e78c45a-ac87-4c6c-8003-176ee415d3c7
+                url: >-
+                  https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/9e78c45a-ac87-4c6c-8003-176ee415d3c7
+            $ref: '#/components/schemas/Datum35'
+          description: ''
+      example:
+        prevPage: >-
+          https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=0
+        nextPage: >-
+          https://cs493-assignment1.herokuapp.com/users/name/dringb/reviews/?limit=5&page=2
+        data:
+          - uuid: 7b9b5872-a0a3-4093-ba67-0ff6b93421df
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/7b9b5872-a0a3-4093-ba67-0ff6b93421df
+          - uuid: 70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade4b6f62136427a0515850/reviews/70ba47f3-09c1-4eb6-a1b4-ee8e8057130e
+          - uuid: 2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/2fdb6d9d-ccbb-49b3-970e-75b87fed3b9c
+          - uuid: 6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/6ac7ffee-2993-4bf1-886b-caa2a2a3eef3
+          - uuid: 9e78c45a-ac87-4c6c-8003-176ee415d3c7
+            url: >-
+              https://cs493-assignment1.herokuapp.com/businesses/id/5ade674cea4f48741ffc7e97/reviews/9e78c45a-ac87-4c6c-8003-176ee415d3c7
+    GetSpecificReviewEmpty:
+      title: Get Specific Review empty
+      required:
+        - _id
+        - name
+        - reviews
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ade1e8453c63ea3c9a377dd
+        name:
+          type: string
+          example: Foo
+        reviews:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+      example:
+        _id: 5ade1e8453c63ea3c9a377dd
+        name: Foo
+        reviews: []
+    SpecificPhoto:
+      title: Specific Photo
+      required:
+        - _id
+        - name
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ade674cea4f48741ffc7e97
+        name:
+          type: string
+          example: Foo
+        photos:
+          type: array
+          items:
+            example:
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 15ea6449-aeba-4a98-8079-1e3de2d42db6
+            $ref: '#/components/schemas/Photo'
+          description: ''
+      example:
+        _id: 5ade674cea4f48741ffc7e97
+        name: Foo
+        photos:
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 15ea6449-aeba-4a98-8079-1e3de2d42db6
+    BusinessRequest:
+      title: BusinessRequest
+      required:
+        - name
+        - owner
+      type: object
+      properties:
+        name:
+          type: string
+          example: fart2
+        owner:
+          type: string
+          example: dringb
+      example:
+        name: fart2
+        owner: dringb
+    EditBusiness:
+      title: Edit Business
+      required:
+        - _id
+        - name
+        - owner
+        - address
+        - city
+        - state
+        - zip
+        - phone
+        - category
+        - subCategory
+        - website
+        - email
+        - reviews
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5adbb602a941b26995553641
+        name:
+          type: string
+          example: fart
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: integer
+          format: int32
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        category:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        subCategory:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        website:
+          type: string
+          example: 'https://google.com'
+        email:
+          type: string
+          example: santa@gmail.com
+        reviews:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        photos:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+      example:
+        _id: 5adbb602a941b26995553641
+        name: fart
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        category: []
+        subCategory: []
+        website: 'https://google.com'
+        email: santa@gmail.com
+        reviews: []
+        photos: []
+    BusinessReviewrequest:
+      title: Business ReviewRequest
+      required:
+        - cost
+        - message
+        - owner
+      type: object
+      properties:
+        cost:
+          type: integer
+          format: int32
+          example: 0
+        message:
+          type: string
+          example: Something Else
+        owner:
+          type: string
+          example: dringb
+      example:
+        cost: 0
+        message: Something Else
+        owner: dringb
+    EditBusinessReviewError:
+      title: Edit Business Review error
+      required:
+        - data
+        - isBoom
+        - isServer
+        - output
+      type: object
+      properties:
+        data:
+          type: string
+          nullable: true
+        isBoom:
+          type: boolean
+          example: true
+        isServer:
+          type: boolean
+          example: false
+        output:
+          example:
+            statusCode: 400
+            payload:
+              statusCode: 400
+              error: Bad Request
+              message: User not Found
+            headers: {}
+          $ref: '#/components/schemas/Output'
+      example:
+        data: null
+        isBoom: true
+        isServer: false
+        output:
+          statusCode: 400
+          payload:
+            statusCode: 400
+            error: Bad Request
+            message: User not Found
+          headers: {}
+    BusinessPhotorequest:
+      title: Business PhotoRequest
+      required:
+        - caption
+        - owner
+      type: object
+      properties:
+        caption:
+          type: string
+          example: fart
+        owner:
+          type: string
+          example: dringb
+      example:
+        caption: fart
+        owner: dringb
+    EditBusinessPhoto:
+      title: Edit Business Photo
+      required:
+        - 'n'
+        - nModified
+        - opTime
+        - electionId
+        - ok
+      type: object
+      properties:
+        'n':
+          type: integer
+          format: int32
+          example: 1
+        nModified:
+          type: integer
+          format: int32
+          example: 1
+        opTime:
+          example:
+            ts: 6547732407879991000
+            t: 1
+          $ref: '#/components/schemas/OpTime'
+        electionId:
+          type: string
+          example: 7fffffff0000000000000001
+        ok:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        'n': 1
+        nModified: 1
+        opTime:
+          ts: 6547732407879991000
+          t: 1
+        electionId: 7fffffff0000000000000001
+        ok: 1
+    OpTime:
+      title: OpTime
+      required:
+        - ts
+        - t
+      type: object
+      properties:
+        ts:
+          type: string
+          example: 6547732407879991000
+        t:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        ts: 6547732407879991000
+        t: 1
+    CategoryRequest:
+      title: CategoryRequest
+      required:
+        - category
+        - owner
+      type: object
+      properties:
+        category:
+          type: string
+          example: fart
+        owner:
+          type: string
+          example: dringb
+      example:
+        category: fart
+        owner: dringb
+    EditCategory:
+      title: Edit Category
+      required:
+        - 'n'
+        - nModified
+        - opTime
+        - electionId
+        - ok
+      type: object
+      properties:
+        'n':
+          type: integer
+          format: int32
+          example: 1
+        nModified:
+          type: integer
+          format: int32
+          example: 1
+        opTime:
+          example:
+            ts: 6547752194794324000
+            t: 1
+          $ref: '#/components/schemas/OpTime'
+        electionId:
+          type: string
+          example: 7fffffff0000000000000001
+        ok:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        'n': 1
+        nModified: 1
+        opTime:
+          ts: 6547752194794324000
+          t: 1
+        electionId: 7fffffff0000000000000001
+        ok: 1
+    BusinessRequest56:
+      title: BusinessRequest56
+      required:
+        - owner
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+      example:
+        owner: dringb
+    ReviewRequest:
+      title: ReviewRequest
+      required:
+        - owner
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+      example:
+        owner: dringb
+    PhotoRequest:
+      title: PhotoRequest
+      required:
+        - owner
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+      example:
+        owner: dringb
+    DeleteCategorySuccess:
+      title: Delete category Success
+      required:
+        - 'n'
+        - opTime
+        - electionId
+        - ok
+      type: object
+      properties:
+        'n':
+          type: integer
+          format: int32
+          example: 1
+        opTime:
+          example:
+            ts: 6547711104842203000
+            t: 1
+          $ref: '#/components/schemas/OpTime'
+        electionId:
+          type: string
+          example: 7fffffff0000000000000001
+        ok:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        'n': 1
+        opTime:
+          ts: 6547711104842203000
+          t: 1
+        electionId: 7fffffff0000000000000001
+        ok: 1
+    DeleteSubCategory:
+      title: Delete sub category
+      required:
+        - 'n'
+        - nModified
+        - opTime
+        - electionId
+        - ok
+      type: object
+      properties:
+        'n':
+          type: integer
+          format: int32
+          example: 1
+        nModified:
+          type: integer
+          format: int32
+          example: 1
+        opTime:
+          example:
+            ts: 6547741831038239000
+            t: 1
+          $ref: '#/components/schemas/OpTime'
+        electionId:
+          type: string
+          example: 7fffffff0000000000000001
+        ok:
+          type: integer
+          format: int32
+          example: 1
+      example:
+        'n': 1
+        nModified: 1
+        opTime:
+          ts: 6547741831038239000
+          t: 1
+        electionId: 7fffffff0000000000000001
+        ok: 1
+    BusinessRequest63:
+      title: BusinessRequest63
+      required:
+        - name
+        - owner
+        - address
+        - city
+        - state
+        - zip
+        - phone
+        - category
+        - subCategory
+        - website
+        - email
+      type: object
+      properties:
+        name:
+          type: string
+          example: Foo
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: integer
+          format: int32
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        category:
+          type: array
+          items:
+            type: string
+            example:
+              - Restaurant
+          description: ''
+        subCategory:
+          type: array
+          items:
+            type: string
+            example:
+              - Mexican
+          description: ''
+        website:
+          type: string
+          example: 'https://google.com'
+        email:
+          type: string
+          example: santa@gmail.com
+      example:
+        name: Foo
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        category:
+          - Restaurant
+        subCategory:
+          - Mexican
+        website: 'https://google.com'
+        email: santa@gmail.com
+    AddBusiness:
+      title: Add Business
+      required:
+        - name
+        - owner
+        - address
+        - city
+        - state
+        - zip
+        - phone
+        - category
+        - subCategory
+        - website
+        - email
+        - reviews
+        - photos
+        - _id
+      type: object
+      properties:
+        name:
+          type: string
+          example: Foo
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: integer
+          format: int32
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        category:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        subCategory:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        website:
+          type: string
+          example: 'https://google.com'
+        email:
+          type: string
+          example: santa@gmail.com
+        reviews:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        photos:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        _id:
+          type: string
+          example: 5ada5176a25ed0a0c68bc5b9
+      example:
+        name: Foo
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        category: []
+        subCategory: []
+        website: 'https://google.com'
+        email: santa@gmail.com
+        reviews: []
+        photos: []
+        _id: 5ada5176a25ed0a0c68bc5b9
+    UserRequest:
+      title: UserRequest
+      required:
+        - owner
+        - type
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        type:
+          type: string
+          example: admin
+      example:
+        owner: dringb
+        type: admin
+    CreateUser:
+      title: create user
+      required:
+        - _id
+        - username
+        - type
+        - owns
+        - reviews
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ada55da36bc14b23c3f7ab3
+        username:
+          type: string
+          example: dringb
+        type:
+          type: string
+          example: admin
+        owns:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        reviews:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        photos:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+      example:
+        _id: 5ada55da36bc14b23c3f7ab3
+        username: dringb
+        type: admin
+        owns: []
+        reviews: []
+        photos: []
+    CreateCategoryNoUser:
+      title: Create Category no user
+      required:
+        - data
+        - isBoom
+        - isServer
+        - output
+      type: object
+      properties:
+        data:
+          type: string
+          nullable: true
+        isBoom:
+          type: boolean
+          example: true
+        isServer:
+          type: boolean
+          example: false
+        output:
+          example:
+            statusCode: 400
+            payload:
+              statusCode: 400
+              error: Bad Request
+              message: No user found
+            headers: {}
+          $ref: '#/components/schemas/Output'
+      example:
+        data: null
+        isBoom: true
+        isServer: false
+        output:
+          statusCode: 400
+          payload:
+            statusCode: 400
+            error: Bad Request
+            message: No user found
+          headers: {}
+    SubCategoryrequest:
+      title: Sub CategoryRequest
+      required:
+        - owner
+        - subCategory
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        subCategory:
+          type: string
+          example: Mexican
+      example:
+        owner: dringb
+        subCategory: Mexican
+    CreateSubCategory:
+      title: Create Sub Category
+      required:
+        - _id
+        - category
+        - owner
+        - subCategories
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ade1b8f3173159eb8520714
+        category:
+          type: string
+          example: Restaurant
+        owner:
+          type: string
+          example: dringb
+        subCategories:
+          type: array
+          items:
+            type: string
+            example:
+              - Mexican
+          description: ''
+      example:
+        _id: 5ade1b8f3173159eb8520714
+        category: Restaurant
+        owner: dringb
+        subCategories:
+          - Mexican
+    BusinessReviewrequest73:
+      title: Business ReviewRequest73
+      required:
+        - owner
+        - stars
+        - cost
+        - message
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        stars:
+          type: integer
+          format: int32
+          example: 5
+        cost:
+          type: integer
+          format: int32
+          example: 5
+        message:
+          type: string
+          example: Foo
+      example:
+        owner: dringb
+        stars: 5
+        cost: 5
+        message: Foo
+    CreateBusinessReview:
+      title: Create Business Review
+      required:
+        - _id
+        - name
+        - owner
+        - address
+        - city
+        - state
+        - zip
+        - phone
+        - category
+        - subCategory
+        - website
+        - email
+        - reviews
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5ada5b0591f168c7cb64eb87
+        name:
+          type: string
+          example: Foo
+        owner:
+          type: string
+          example: dringb
+        address:
+          type: string
+          example: 12345 wallaby way
+        city:
+          type: string
+          example: Salem
+        state:
+          type: string
+          example: Oregon
+        zip:
+          type: integer
+          format: int32
+          example: 97302
+        phone:
+          type: string
+          example: 123 - 456 - 789
+        category:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        subCategory:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+        website:
+          type: string
+          example: 'https://google.com'
+        email:
+          type: string
+          example: santa@gmail.com
+        reviews:
+          type: array
+          items:
+            example:
+              - author: dringb
+                stars: 5
+                cost: 5
+                message: Foo
+                uuid: 5c4e9c8b-2947-4fae-ba6e-81dfa9dace8d
+            $ref: '#/components/schemas/Review'
+          description: ''
+        photos:
+          type: array
+          items:
+            type: string
+            example: []
+          description: ''
+      example:
+        _id: 5ada5b0591f168c7cb64eb87
+        name: Foo
+        owner: dringb
+        address: 12345 wallaby way
+        city: Salem
+        state: Oregon
+        zip: 97302
+        phone: 123 - 456 - 789
+        category: []
+        subCategory: []
+        website: 'https://google.com'
+        email: santa@gmail.com
+        reviews:
+          - author: dringb
+            stars: 5
+            cost: 5
+            message: Foo
+            uuid: 5c4e9c8b-2947-4fae-ba6e-81dfa9dace8d
+        photos: []
+    BusinessPhotosrequest:
+      title: Business PhotosRequest
+      required:
+        - owner
+        - image
+        - caption
+      type: object
+      properties:
+        owner:
+          type: string
+          example: dringb
+        image:
+          type: string
+          example: 'https://www.bing.com/'
+        caption:
+          type: string
+          example: some caption
+      example:
+        owner: dringb
+        image: 'https://www.bing.com/'
+        caption: some caption
+    CreatePhoto:
+      title: Create Photo
+      required:
+        - _id
+        - photos
+      type: object
+      properties:
+        _id:
+          type: string
+          example: 5adbb602a941b26995553641
+        photos:
+          type: array
+          items:
+            example:
+              - owner: dringb
+                image: 'https://www.bing.com/'
+                caption: some caption
+                uuid: 1f71e297-6913-430e-9d0f-cfd13e374e63
+            $ref: '#/components/schemas/Photo'
+          description: ''
+      example:
+        _id: 5adbb602a941b26995553641
+        photos:
+          - owner: dringb
+            image: 'https://www.bing.com/'
+            caption: some caption
+            uuid: 1f71e297-6913-430e-9d0f-cfd13e374e63
