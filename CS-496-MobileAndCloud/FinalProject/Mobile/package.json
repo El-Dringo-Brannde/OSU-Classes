@@ -23,7 +23,7 @@
       "expo": "^25.0.0",
       "react": "16.2.0",
       "react-dom": "^16.2.0",
-      "react-native": "0.52.0",
+      "react-native": "0.70.6",
       "react-native-fbsdk": "^0.7.0",
       "react-native-snackbar-component": "^1.0.8",
       "react-native-swipe-list-view": "^1.0.6",
